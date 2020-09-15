@@ -8,3 +8,6 @@ Provides multiple enhancements including:
 - new outline Path provides seperate controllable graphic for adding specialized effects to outline of menu items
 - Test app GUI with slider controls for properties
 - ColorChoosers for stroke, fill, mouseover and outline colors
+
+Original work that inspired this is here:
+https://github.com/MrLoNee/RadialFx
