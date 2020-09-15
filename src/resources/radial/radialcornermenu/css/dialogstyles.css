@@ -1,0 +1,119 @@
+/* 
+    Author     : sphillips
+*/
+
+
+.dialog-pane {
+    -var-content_background_color: #6495ED66;
+    -fx-background-color: -var-content_background_color;
+    -var-accent_color: #0078d7;
+    -var-text_color: white;    
+}
+
+.dialog-pane:header .header-panel {
+    -fx-background-color: #1f1f1f;
+}
+.dialog-pane:header .header-panel .label {
+    -fx-font-style: italic;
+    -fx-font-size: 12pt;
+    -fx-text-fill: -var-text_color;
+}
+.dialog-pane > .content {
+    -fx-background-color: -var-content_background_color;
+}
+
+.dialog-pane > .content .label{
+    -fx-text-fill: -var-text_color;
+    -fx-font-size: 12pt;
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+}
+/*******************************************************************************
+ *                                                                             *
+ * Button                                                                      *
+ *                                                                             *
+ ******************************************************************************/
+
+.dialog-pane .button, .dialog-pane .toggle-button {
+    -var-background_color: #333333;
+    -var-background_pressed_color: #666666;
+    -var-border_hover_color: #858585;
+    -var-text_color: white;
+    -var-default_button_text_color: white;
+    -var-focus_ring_border_color: white;
+}
+
+.dialog-pane .button {
+    -var-border_hover_default_color: derive(-var-accent_color, 70%);
+}
+
+.dialog-pane .toggle-button {
+    -var-border_hover_selected_color: derive(-var-accent_color, 70%);
+}
+
+.dialog-pane .button, .dialog-pane .toggle-button {
+    -shrink-animate-on-press: true;
+}
+
+.dialog-pane .button, .dialog-pane .toggle-button {
+    -fx-padding: 0.25em 1.666666em 0.25em 1.666666em; /*3 20 3 20*/
+    -fx-border-color: transparent;
+    -fx-border-width: 2;
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-background-color: -var-background_color;
+    -fx-font-family: "Segoe UI Semilight";
+    -fx-font-size: 1.333333em; /* 16 */
+    -fx-text-fill: -var-text_color;
+}
+
+.dialog-pane .button:hover, .dialog-pane .toggle-button:hover{
+    -fx-border-color: -var-border_hover_color;
+}
+
+.dialog-pane .button:pressed, .dialog-pane .toggle-button:pressed
+{
+    -fx-border-color: -var-background_pressed_color;
+    -fx-background-color: -var-background_pressed_color;
+}
+
+.dialog-pane .button:focused, .dialog-pane .toggle-button:focused
+{
+    -fx-border-color: transparent, -var-focus_ring_border_color;
+    -fx-border-width: 1, 1;
+    -fx-border-style: solid, segments(1, 2);
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
+}
+
+.dialog-pane .button:disabled, .dialog-pane .button:default:disabled, .dialog-pane .toggle-button:disabled
+{
+    -fx-opacity: 0.4;
+    -fx-background-color: -var-background_color;
+    -fx-text-fill: -var-text_color;
+}
+
+.dialog-pane .button:default
+{
+    -fx-background-color: -var-accent_color;
+    -fx-text-fill: -var-default_button_text_color;
+}
+
+.dialog-pane .button:default:hover{
+    -fx-border-color: -var-border_hover_default_color;
+}
+
+.dialog-pane .button:default:pressed {
+    -fx-background-color: derive(-var-accent_color, -40%);
+}
+
+
+
+/*******************************************************************************
+ *                                                                             *
+ * GridPane                                                                  *
+ *                                                                             *
+ ******************************************************************************/
+
+.dialog-pane .grid-pane {
+    -fx-background-color: transparent;
+}

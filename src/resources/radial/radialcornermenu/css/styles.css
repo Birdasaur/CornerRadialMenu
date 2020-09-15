@@ -1,0 +1,696 @@
+/*******************************************************************************
+ *                                                                             *
+ * Miscellaneous Custom Styles                                                           *
+ *                                                                             *
+ ******************************************************************************/
+.root {
+    /* Root variables */
+    -var-accent_color: #0078d7;
+}
+
+.neo-pane { 
+    -fx-background-color: radial-gradient(center 50% 50% , radius 95% , #6495ED77, #000000);
+    /*-fx-background-color: radial-gradient(center 50% 50% , radius 95% , #6495ED, #000000);*/
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * FontAwesome                                                                 *
+ *                                                                             *
+ ******************************************************************************/
+
+.root{
+    -icons-color: #0c0c0c;
+}
+
+.glyph-icon{
+    -fx-text-fill: -icons-color;
+    -fx-fill: -icons-color;
+    -glyph-size: 48px;
+}
+
+.glyph-icon:hover{
+    -fx-fill: linear-gradient(-icons-color 0%, 
+        derive(-icons-color, 100%) 30%, derive(blueviolet, 30%) 85%);
+}
+
+.glyph-icon:pressed{
+    -fx-fill: linear-gradient(-icons-color 0%, 
+        derive(aliceblue, 100%) 30%, derive(blueviolet, 30%) 85%);
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Button and ToggleButton                                                     *
+ *                                                                             *
+ ******************************************************************************/
+
+.button, .toggle-button {
+    -var-background_color: #333333;
+    -var-background_pressed_color: #666666;
+    -var-border_hover_color: #858585;
+    -var-text_color: white;
+    -var-default_button_text_color: white;
+    -var-focus_ring_border_color: white;
+}
+
+.button {
+    -var-border_hover_default_color: derive(-var-accent_color, 70%);
+}
+
+.toggle-button {
+    -var-border_hover_selected_color: derive(-var-accent_color, 70%);
+}
+
+.button, .toggle-button {
+    -shrink-animate-on-press: true;
+}
+
+
+.button, .toggle-button {
+    -fx-padding: 0.25em 1.666666em 0.25em 1.666666em; /*3 20 3 20*/
+
+    -fx-border-color: transparent;
+    -fx-border-width: 2;
+
+    -fx-background-radius: 0;
+    -fx-background-insets: 0;
+    -fx-background-color: -var-background_color;
+
+    -fx-font-family: "Segoe UI Semilight";
+    -fx-font-size: 1.333333em; /* 16 */
+    -fx-text-fill: -var-text_color;
+}
+
+.button:hover, .toggle-button:hover{
+    -fx-border-color: -var-border_hover_color;
+}
+
+.button:pressed, .toggle-button:pressed
+{
+    -fx-border-color: -var-background_pressed_color;
+    -fx-background-color: -var-background_pressed_color;
+}
+
+.button:focused, .toggle-button:focused
+{
+    -fx-border-color: transparent, -var-focus_ring_border_color;
+    -fx-border-width: 1, 1;
+    /*noinspection CssInvalidFunction*/
+    -fx-border-style: solid, segments(1, 2);
+    -fx-border-radius: 0, 0;
+    -fx-border-insets: 1 1 1 1, 0;
+}
+
+.button:disabled, .button:default:disabled, .toggle-button:disabled
+{
+    -fx-opacity: 0.4;
+    -fx-background-color: -var-background_color;
+    -fx-text-fill: -var-text_color;
+}
+
+/****************************** Button ****************************************/
+
+.button:default
+{
+    -fx-background-color: -var-accent_color;
+    -fx-text-fill: -var-default_button_text_color;
+}
+
+.button:default:hover{
+    -fx-border-color: -var-border_hover_default_color;
+}
+
+.button:default:pressed {
+    -fx-background-color: derive(-var-accent_color, -40%);
+}
+
+/**************************** Toggle Button ***********************************/
+
+.toggle-button:selected {
+    -fx-background-color: -var-accent_color;
+    -fx-text-fill: white;
+}
+
+.toggle-button:selected:hover {
+    -fx-border-color: -var-border_hover_selected_color;
+}
+
+.toggle-button:selected:pressed {
+    -fx-background-color: derive(-var-accent_color, -40%);
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Label                                                                       *
+ *                                                                             *
+ ******************************************************************************/
+
+.label {
+    /*-fx-font-size: 12pt;   CHANGED*/
+    -fx-font-family: "Segoe UI Semibold";
+    -fx-text-fill: aliceblue;
+    -fx-opacity: 0.75;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * ListView                                                                    *
+ *                                                                             *
+ ******************************************************************************/
+
+.list-view {
+    -fx-text-fill: aliceblue;
+    -fx-background-color: transparent;
+}
+
+.list-cell {
+    -var-text_color: white;
+/*    -var-title_background_color: #1f1f1f;
+    -var-title_background_hover_color: #4a4a4a;*/
+    -var-border_color: #494949;
+    /*-var-arrow_color: #6495ED;  CornflowerBlue*/ 
+    -var-content_background_color: #6495ED88;
+    -var-content_background_odd_color: #4a9ec388;
+    -fx-background-color: -var-content_background_color;    
+    
+    /*-fx-background-color: linear-gradient(to top, #6495ED01 10%, #6495ED55 75%, #6495ED77 90%);*/    
+    /*-fx-background-color: #0A65BFEE;*/
+    
+}
+.list-cell:odd { 
+    -fx-background-color: -var-content_background_odd_color;
+}
+
+.list-cell:filled:selected:focused, 
+.list-cell:filled:selected {
+    -fx-background-color: linear-gradient(#328BDB 0%, #207BCF 25%, #1973C9 75%, #0A65BF 100%);
+    /*-fx-text-fill: aliceblue;*/
+}
+
+.list-cell:filled:hover {
+    -fx-background-color: #55c4fe;
+    /*-fx-text-fill: aliceblue;*/
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Check Box                                                                   *
+ *                                                                             *
+ ******************************************************************************/
+
+.check-box {
+    -fx-text-fill: white;
+}
+
+ /*unselected*/ 
+.check-box > .box {
+    -fx-background-color: #d1d1d1;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-border-color: #d1d1d1;
+    -fx-border-width: 2px;
+    -fx-borders-style: solid;
+    -fx-padding: 1;
+}
+
+.check-box > .box > .mark {
+    -fx-background-color: transparent;
+    -fx-background-insets: 0;
+    -fx-padding:7px;
+    -fx-shape: "M9.005,17.766l13.759,14.739h1.716L49.02,0l10.298,8.488L25.997,50.453h-3.629L0,26.897L9.005,17.766z"
+}
+
+.check-box:hover > .box {
+    -fx-border-color: #a1e1e1;
+    -fx-background-color: #e1e1e1;
+}
+
+.check-box:focused > .box{
+    -fx-background-color: #d1d1d1;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-border-color: white, #d1d1d1;
+    -fx-border-width: 1, 2;
+    -fx-border-style: segments(1, 2), solid;
+    -fx-border-insets: -3, 0;
+}
+
+.check-box:focused:hover > .box{
+    -fx-border-color: white, #e1e1e1;
+    -fx-background-color: #e1e1e1;
+}
+
+.check-box:pressed > .box{
+    -fx-border-color: white, white;
+
+}
+
+.check-box:selected > .box > .mark {
+    -fx-background-color: black;
+}
+
+.check-box:indeterminate > .box > .mark {
+   -fx-background-color: black;
+   -fx-background-insets: 2.8;
+   -fx-padding:7px;
+   -fx-shape: null;
+}
+
+.check-box:disabled
+{
+    -fx-opacity: 0.4;
+}
+
+.check-box:disabled > .box
+{
+    -fx-border-color: white;
+    -fx-background-color: white;
+}
+
+.check-box:disabled:selected > .box > .mark
+{
+    -fx-background-color: #4c4c4c;
+    -fx-opacity: 0.5;
+}
+
+.check-box:armed > .box
+{
+    -fx-background-color: transparent, white;
+    -fx-background-insets: -1, 2;
+    -fx-background-radius: 0, 0;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Slider                                                                      *
+ *                                                                             *
+ ******************************************************************************/
+
+.slider {
+    -var-track_hover_color: #999999;
+    -var-thumb_hover_color: #f2f2f2;
+    -var-thumb_pressed_color: #767676;    
+}
+
+.slider {
+    -show-value-on-interaction: true;
+}
+
+.slider .thumb {
+    -fx-background-color: -var-accent_color;
+    -fx-background-insets: 0;
+    -fx-background-radius: 6px;
+
+    -fx-padding: 12px 4px 12px 4px;
+
+    -fx-effect: null;
+}
+
+.slider:vertical .thumb {
+    -fx-padding: 4px 12px  4px 12px;
+}
+
+.slider .track {
+    -fx-background-color: #c6c6c6;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0.083333em; /* 1 */
+
+}
+
+.slider .fill {
+    -fx-background-color: -var-accent_color;
+    -fx-padding: 0.083333em; /* 1 */
+}
+
+/* hover */
+.slider:hover .track{
+    -fx-background-color: -var-track_hover_color;
+}
+
+.slider:hover .thumb{
+    -fx-background-color: -var-thumb_hover_color;
+}
+
+/* pressed */
+.slider .thumb:pressed {
+    -fx-background-color: -var-thumb_pressed_color;
+}
+
+/* disabled */
+.slider:disabled {
+    -fx-opacity: 0.2;
+}
+
+/* Slider popup showing its value */
+.slider-popup .label {
+    -fx-background-color: #f2f2f2;
+    -fx-border-color: #cccccc;
+
+    -fx-text-fill: #111;
+
+    -fx-padding: 0.5em 0.75em 0.5em 0.75em;
+}
+
+
+/*******************************************************************************
+ *                                                                             *
+ * ScrollPane                                                                  *
+ *                                                                             *
+ ******************************************************************************/
+
+.scroll-pane .corner {
+    -fx-background-color: #000000;
+    -fx-background-radius: 0 0 0 0;
+    -fx-background-insets: 1 0 0 1;  /* have the square on the corner be centered*/ 
+}
+.scroll-pane > .viewport {
+   -fx-background-color: transparent;
+}
+.scroll-pane {
+   -fx-background-color: transparent;
+   -fx-background: transparent;
+   -fx-background-insets: 5 5 5 5;  /* have the square on the corner be centered */
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * ScrollBar                                                                   *
+ *                                                                             *
+ ******************************************************************************/
+
+.scroll-bar > .thumb{
+    -fx-background-color: #1e1e1e;/*#b8b8b8;*/
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
+.scroll-bar > .thumb:hover {
+    -fx-background-color: #cacaca;
+}
+
+.scroll-bar > .thumb:pressed {
+    -fx-background-color: #cacaca; /* #1e1e1e;*/
+}
+
+.scroll-bar > .track {
+    -fx-background-color: #4a4a4a;
+    -fx-background-insets: 0 2 2 0;
+    -fx-background-radius: 0;
+}
+.scroll-bar > .track-background {
+    -fx-background-color: #4a4a4a;
+    -fx-background-insets: 0;
+}
+
+.scroll-bar > .increment-button,
+.scroll-bar > .decrement-button {
+    -fx-background-color: #4a4a4a;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -fx-padding: 0.25em; /* 3 */
+}
+
+.scroll-bar > .increment-button:hover,
+.scroll-bar > .decrement-button:hover  {
+    -fx-background-color: #cacaca;
+}
+
+.scroll-bar > .increment-button:pressed,
+.scroll-bar > .decrement-button:pressed {
+    -fx-background-color: #1e1e1e;
+}
+
+.scroll-bar > .decrement-button > .decrement-arrow,
+.scroll-bar > .increment-button > .increment-arrow{
+    -fx-background-color: transparent, #1e1e1e;
+    -fx-background-insets: 1 0 -1 0, 0;
+    -fx-effect: null;
+}
+
+.scroll-bar > .increment-button:pressed > .increment-arrow,
+.scroll-bar > .decrement-button:pressed > .decrement-arrow {
+    -fx-background-color: transparent, white;
+    -fx-effect: null;
+}
+
+.scroll-bar:vertical > .increment-button > .increment-arrow,
+.scroll-bar:vertical > .decrement-button > .decrement-arrow {
+    -fx-padding: 0.5em 0.5em 0.5em 0.5em; /* 4 6 0 0 */
+}
+
+.scroll-bar:horizontal > .increment-button > .increment-arrow,
+.scroll-bar:horizontal > .decrement-button > .decrement-arrow {
+    -fx-padding: 0.0em 0.0em 0.5em 0.5em; /* 6 4 0 0 */
+}
+
+
+.scroll-bar:disabled {
+    -fx-opacity: 0.4;
+}
+/*******************************************************************************
+ *                                                                             *
+ * Combo Box                                                                   *
+ *                                                                             *
+ ******************************************************************************/
+
+.combo-box-base  {
+    -var-border_color: #666666;
+    -var-border_hover_color: #999999;
+    -var-border_focused_color: white;
+    -var-border_pressed_color: #666666;
+    -var-background_color: #111;
+    -var-background_pressed_color: #333333;
+    -var-arrow_color: white;
+    -var-text_color: white;
+    -var-list_cell_color: #2b2b2b;
+    -var-list_cell_hover_color: #545454;
+    -var-list_cell_border_color: #767676;
+
+    -fx-background-color: transparent, -var-border_color, transparent, -var-background_color;
+    -fx-background-radius: 0, 0, 0, 0;
+    -fx-padding: 0.166667em 0.166667em 0.166667em 0.166667em; /* 2 2px 2 2px*/
+
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 1.333333em; /* 16 */
+}
+
+.combo-box-base > .list-cell {
+    -fx-text-fill: -var-text_color;
+}
+
+.combo-box-base:hover {
+    -fx-background-color: transparent, -var-border_hover_color, transparent, -var-background_color;
+}
+
+.combo-box-base:focused {
+    -fx-background-color: transparent, -var-border_focused_color, transparent, -var-background_color;
+    -fx-background-insets: -1.4, 0, 1, 2;
+    -fx-background-radius: 0, 0, 0, 0;
+}
+
+.combo-box-base:focused:hover {
+    -fx-background-color: transparent, -var-border_hover_color, transparent, -var-background_color;
+}
+
+.combo-box-base:pressed, .combo-box-base:focused:pressed {
+    -fx-background-color: transparent, -var-border_pressed_color, transparent, -var-background_pressed_color;
+}
+
+.combo-box-base:disabled {
+    -fx-opacity: .4;
+}
+
+/* ------- OPEN BUTTON ------- */
+.combo-box-base > .arrow-button {
+    -fx-background-color: transparent, transparent, transparent;
+}
+
+/* ------- ARROW ------- */
+.combo-box-base > .arrow-button > .arrow {
+    -fx-padding: 3.5px 6px 3.5px 6px;
+    -fx-shape: "M21.361,12.736l0.527,0.527L16,19.152l-5.889-5.889l0.527-0.527L16,18.098L21.361,12.736z";
+    -fx-background-insets: 0 0 0 0, 0;
+    -fx-background-color: -var-arrow_color;
+}
+
+/* LIST (Popup)*/
+.combo-box-popup > .list-view {
+    -fx-effect: null;
+    -fx-border-color: -var-list_cell_border_color;
+}
+
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell {
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 11pt;
+    -fx-padding: 4 0 4 5;
+    -fx-background-color: -var-list_cell_color;
+}
+
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:hover{
+    -fx-background-color: -var-list_cell_hover_color;
+    -fx-text-fill: -var-text_color;
+}
+
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected{
+    -fx-background-color: derive(-var-accent_color, 90%);
+    -fx-text-fill: #111;
+}
+
+.combo-box-popup > .list-view > .virtual-flow > .clipped-container > .sheet > .list-cell:filled:selected:hover{
+    -fx-background-color: derive(-var-accent_color, 70%);
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Spinner                                                                     *
+ *                                                                             *
+ ******************************************************************************/
+.spinner {
+    -var-spinner_background_color: #4a4a4a;
+
+    -var-arrow_button_hover_color: #3c4145;
+    -var-arrow_button_pressed_color: #a8abac;
+
+    -var-arrow_color: #999;
+    -var-arrow_pressed_color: #5e6060;
+    
+    -fx-background-color: -var-spinner_background_color;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+    -var-text_color: white;
+}
+
+.spinner > .text-field{
+    -fx-text-fill: -var-text_color;
+    -fx-background-color: -var-spinner_background_color;
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
+/* TODO: Below doesn't work when spinner is in SPLIT_ARROWS_HORIZONTAL and is not focused
+   however it works if you are running with Scenic View attached. Should be a bug in JavaFX 8.
+ */
+.spinner:focused > .text-field,
+.spinner:contains-focus > .text-field,
+.spinner > .text-field,
+.spinner.split-arrows-horizontal > .text-field {
+    -fx-text-fill: -var-text_color;
+}
+
+.spinner .increment-arrow-button,
+.spinner .decrement-arrow-button  {
+    -fx-background-color: -var-spinner_background_color;
+    /*Change the two 0's here to -1 to get rid of the horizontal line */
+    -fx-background-insets: 0;
+    -fx-background-radius: 0;
+}
+
+.spinner .increment-arrow-button:hover,
+.spinner .decrement-arrow-button:hover {
+    -fx-background-color: -var-arrow_button_hover_color;
+}
+
+.spinner .increment-arrow-button:pressed,
+.spinner .decrement-arrow-button:pressed {
+    -fx-background-color: -var-arrow_button_pressed_color;
+}
+
+.spinner .increment-arrow-button .increment-arrow,
+.spinner .decrement-arrow-button .decrement-arrow {
+    -fx-background-color: -var-arrow_color;
+}
+
+.spinner .increment-arrow-button:pressed .increment-arrow,
+.spinner .decrement-arrow-button:pressed .decrement-arrow{
+    -fx-background-color: -var-arrow_pressed_color;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * GridPane                                                                  *
+ *                                                                             *
+ ******************************************************************************/
+
+.grid-pane {
+    -fx-background-color: transparent;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * TitledPane                                                                  *
+ *                                                                             *
+ ******************************************************************************/
+
+.titled-pane {
+    -var-text_color: white;
+    -var-title_background_color: #1f1f1f;
+    -var-title_background_hover_color: #4a4a4a;
+    -var-border_color: #494949;
+    -var-arrow_color: #6495ED; /* CornflowerBlue */
+    -var-content_background_color: #6495ED66;
+    -fx-background-color: -var-content_background_color;
+}
+/* Text inside header area */
+.titled-pane > .title > .text {
+    -fx-fill: -var-text_color;
+    -fx-font-family: "Segoe UI";
+    -fx-font-size: 1.166667em; /* 14 */
+}
+
+/* Title header area */
+.titled-pane > .title {
+    -fx-background-color: -var-border_color, -var-title_background_color;
+    -fx-background-insets: 0, 1;
+    -fx-background-radius: 0;
+}
+
+.titled-pane > .title:hover {
+    -fx-background-color: -var-border_color, -var-title_background_hover_color;
+}
+
+/* Arrow (for collapsing/expanding) */
+.titled-pane > .title > .arrow-button > .arrow {
+    -fx-shape: "M 4.21875 10.78125 L 2.78125 12.21875 L 15.28125 24.71875 L 16 25.40625 L 16.71875 24.71875 L 29.21875 12.21875 L 27.78125 10.78125 L 16 22.5625 Z";
+    -fx-background-color: -var-arrow_color;
+    -fx-effect: null;
+}
+
+.titled-pane > .title > .arrow-button > .arrow,
+.titled-pane:focused > .title > .arrow-button > .arrow {
+    -fx-background-insets: 0, 0;
+}
+
+/* Content */
+.titled-pane > .content {
+    -fx-border-width: 0;
+    -fx-background-color: -var-content_background_color;
+    -fx-background-insets: -1 0 0 0, 0 1 1 1;
+}
+
+/* Disabled */
+.titled-pane:disabled,
+.titled-pane:disabled > .title,
+.titled-pane:disabled > .content {
+    -fx-opacity: 0.5;
+}
+
+/*******************************************************************************
+ *                                                                             *
+ * Custom                                                                      *
+ *                                                                             *
+ ******************************************************************************/
+
+#bounding-box {
+    -fx-stroke: #C7CFC5;
+    -fx-stroke-width: 1;
+    -fx-stroke-dash-array: 4 2 4 2;
+    -fx-stroke-dash-offset: 1; 
+    -fx-background-color:transparent;
+}
+
+#bounding-box-fill{
+    -fx-background-color:blanchedalmond;
+    -fx-opacity: 0.2
+}
