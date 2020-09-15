@@ -1,10 +1,7 @@
 # CornerRadialMenu
-Adaptation of Mr. LoNee's JavaFX RadialMenu example found in JFXtras-labs
-
-
 ![](/media/brightblue.png
 
-
+Adaptation of Mr. LoNee's JavaFX RadialMenu example found in JFXtras-labs
 Provides multiple enhancements including: 
 
 - property control over strokeWidth and menuSize
