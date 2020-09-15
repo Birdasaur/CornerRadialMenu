@@ -88,8 +88,8 @@ public class App extends Application {
     @Override
     public void start(Stage stage) {
         radialMenu = createCenterRadialMenu();
-        radialMenu.setTranslateX(500);
-        radialMenu.setTranslateY(500);        
+        radialMenu.setTranslateX(750);
+        radialMenu.setTranslateY(400);        
         Pane pane = new Pane(radialMenu);
         HBox colors = createColorControls();
         VBox controls = createSliderControls();
