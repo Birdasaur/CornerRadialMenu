@@ -1,5 +1,5 @@
 # CornerRadialMenu
-![](/media/brightblue.png
+![](/media/brightblue.png)
 
 Adaptation of Mr. LoNee's JavaFX RadialMenu example found in JFXtras-labs
 Provides multiple enhancements including: 
