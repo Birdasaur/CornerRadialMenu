@@ -77,6 +77,7 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
     protected DoubleProperty offset;
     protected DoubleProperty initialAngle;
     protected DoubleProperty itemFitWidth;
+    protected DoubleProperty menuItemSize;
     protected ObjectProperty<Paint> backgroundFill;
     protected ObjectProperty<Paint> backgroundMouseOnFill;
 
@@ -262,6 +263,14 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
     public DoubleProperty itemFitWidthProperty() {
         return itemFitWidth;
     }
+    public double getMenuItemSize() {
+        return menuItemSize.get();
+    }
+
+    public DoubleProperty menuItemSizeProperty() {
+        return menuItemSize;
+    }
+
     public double getInnerRadius() {
         return this.innerRadius.get();
     }
@@ -325,6 +334,7 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
 
         this.itemGroup = new Group();
         this.getChildren().add(this.itemGroup);
+        
         itemFitWidth = new SimpleDoubleProperty(innerRadius);
         itemFitWidth.addListener(new ChangeListener<Number>() {
             @Override
@@ -332,6 +342,15 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
                 final ObservableValue<? extends Number> paramObservableValue,
                 final Number paramT1, final Number paramT2) {
                     setGraphicsFitWidth(paramObservableValue.getValue().doubleValue());
+            }            
+        });
+        menuItemSize = new SimpleDoubleProperty(innerRadius);
+        menuItemSize.addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(
+                final ObservableValue<? extends Number> paramObservableValue,
+                final Number paramT1, final Number paramT2) {
+                    setMenuItemSize(paramObservableValue.getValue().doubleValue());
             }            
         });
         
