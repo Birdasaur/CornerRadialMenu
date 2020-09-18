@@ -56,6 +56,7 @@ import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
 import javafx.scene.effect.Effect;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.paint.Color;
@@ -97,9 +98,12 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
     protected Group centerGroup;
     protected Group itemGroup;
     private boolean mouseOn = false;
+    protected BooleanProperty mouseOnProperty = new SimpleBooleanProperty(mouseOn);
     private double lastInitialAngleValue;
     private double lastOffsetValue;
-
+    private boolean allowRedraw = true;
+    
+    
     public Paint getBackgroundFill() {
         return this.backgroundFill.get();
     }
@@ -370,29 +374,27 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
             @Override
             public void handle(final MouseEvent event) {
                 RadialMenu.this.mouseOn = true;
+                mouseOnProperty.set(mouseOn);
                 RadialMenu.this.redraw();
             }
         });
         this.centerGroup.setOnMouseExited(new EventHandler<MouseEvent>() {
-
             @Override
             public void handle(final MouseEvent event) {
                 RadialMenu.this.mouseOn = false;
+                mouseOnProperty.set(mouseOn);
                 RadialMenu.this.redraw();
             }
         });
         this.centerGroup.setOnMouseClicked(new EventHandler<MouseEvent>() {
-
             @Override
             public void handle(final MouseEvent event) {
-                final boolean visible = RadialMenu.this.itemGroup
-                        .isVisible();
+                final boolean visible = itemGroup.isVisible();
                 if (visible) {
                     RadialMenu.this.hideRadialMenu();
                 } else {
                     RadialMenu.this.showRadialMenu();
                 }
-
                 event.consume();
             }
         });
@@ -404,7 +406,26 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
 
         this.saveStateBeforeAnimation();
     }
-
+    
+    public void setGraphicsFitWidth(double fitWidth) {
+        Node centerNode = getCenterGraphic();
+        if(centerNode instanceof ImageView) {
+            ImageView civ = (ImageView)centerNode;
+            civ.setFitWidth(fitWidth);
+            civ.setTranslateX(-fitWidth / 2.0);
+            civ.setTranslateY(-fitWidth / 2.0);
+        }
+        items.stream().forEach(item -> {
+            Node node = item.getGraphic();
+            if(node instanceof ImageView) {
+                ImageView iv = (ImageView)node;
+                iv.setFitWidth(fitWidth);
+            }
+        });        
+    }
+    public void setMenuItemSize(double menuItemSize) {
+        items.stream().forEach(item -> item.setMenuSize(menuItemSize));
+    }
     public void setOnMenuItemMouseClicked(
             final EventHandler<? super MouseEvent> paramEventHandler) {
         for (final RadialMenuItem item : this.items) {
@@ -629,9 +650,12 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
     @Override
     public void changed(final ObservableValue<? extends Object> arg0,
                         final Object arg1, final Object arg2) {
-        this.redraw();
+        if(isAllowRedraw())
+            redraw();
     }
-
+    public void requestDraw() {
+        redraw();
+    }
     private void redraw() {
         if (this.centerVisibility.get() == CenterVisibility.NEVER) {
             this.centerGroup.visibleProperty().set(false);
@@ -652,5 +676,19 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
                         .get() : this.strokeFill.get())
                         : Color.TRANSPARENT);
         this.centerStrokeShape.setStrokeWidth(this.strokeWidth.get());
+    }
+
+    /**
+     * @return the allowRedraw
+     */
+    public boolean isAllowRedraw() {
+        return allowRedraw;
+    }
+
+    /**
+     * @param allowRedraw the allowRedraw to set
+     */
+    public void setAllowRedraw(boolean allowRedraw) {
+        this.allowRedraw = allowRedraw;
     }
 }

@@ -100,6 +100,7 @@ public class RadialMenuItem extends Group implements ChangeListener<Object> {
     protected double translateX;
     protected double translateY;
     protected boolean mouseOn = false;
+    protected BooleanProperty mouseOnProperty = new SimpleBooleanProperty(mouseOn);    
     protected Path path;
     protected Path outlinePath; //For creating sharply contrasting outline effects
     protected Node graphic;
@@ -155,6 +156,7 @@ public class RadialMenuItem extends Group implements ChangeListener<Object> {
 	    @Override
 	    public void handle(final MouseEvent arg0) {
 		RadialMenuItem.this.mouseOn = true;
+                mouseOnProperty.set(mouseOn);                
 		RadialMenuItem.this.redraw();
 	    }
 	});
@@ -163,6 +165,7 @@ public class RadialMenuItem extends Group implements ChangeListener<Object> {
 	    @Override
 	    public void handle(final MouseEvent arg0) {
 		RadialMenuItem.this.mouseOn = false;
+                mouseOnProperty.set(mouseOn);                
 		RadialMenuItem.this.redraw();
 	    }
 	});

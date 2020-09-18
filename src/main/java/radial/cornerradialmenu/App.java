@@ -1,13 +1,21 @@
 package radial.cornerradialmenu;
 
+import java.util.ArrayList;
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.ParallelTransition;
+import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
+import javafx.animation.TranslateTransition;
 import javafx.application.Application;
+import javafx.application.Platform;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleLongProperty;
+import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
@@ -24,6 +32,7 @@ import javafx.scene.effect.Glow;
 import javafx.scene.effect.Shadow;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
@@ -35,13 +44,17 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
+import javafx.scene.shape.MoveTo;
 import javafx.stage.Stage;
 import javafx.util.Duration;
+import lit.litfx.core.components.BandEmitter;
+import lit.litfx.core.components.CircleQuadBandCreator;
+import lit.litfx.core.components.PathQuadBandCreator;
 
 
 /**
  * @author Birdasaur
- * @adapted From Mr. LoNee's awesome RadialMenu example. Source for original 
+ * adapted From Mr. LoNee's awesome RadialMenu example. Source for original 
  * prototype can be found in JFXtras-labs project.
  * https://github.com/JFXtras/jfxtras-labs
  */
@@ -50,15 +63,22 @@ public class App extends Application {
     protected boolean show;
     protected double lastOffsetValue;
     protected double lastInitialAngleValue;
-    private FadeTransition textFadeTransition;
     private RadialMenu radialMenu;
-    double ITEM_SIZE = 75.0;
-    double ITEM_FIT_WIDTH = 50.0;
+    double ITEM_SIZE = 70.0;
+    double ITEM_FIT_WIDTH = 70.0;
     double MENU_SIZE = 250.0;
     double OFFSET = 30.0;
-    double INITIAL_ANGLE = -90.0;
-    double STROKE_WIDTH = 1.75;
-            
+    double INITIAL_ANGLE = -50.0;
+    double STROKE_WIDTH = 1.5;
+
+    double CORNER_ITEM_SIZE = 20.0;
+    double CORNER_ITEM_FIT_WIDTH = 20.0;
+    double CORNER_MENU_SIZE = 50.0;
+    double CORNER_OFFSET = 2.0;
+    double CORNER_INITIAL_ANGLE = 260.0;
+//    double STROKE_WIDTH = 1.75;
+    
+    
     Color bgLg1Color = Color.DARKCYAN.deriveColor(1, 1, 1, 0.2);
     Color bgLg2Color = Color.LIGHTBLUE.deriveColor(1, 1, 1, 0.5);
     Color bgMoLg1Color = Color.LIGHTSKYBLUE.deriveColor(1, 1, 1, 0.3);
@@ -84,21 +104,31 @@ public class App extends Application {
     private Slider offsetSlider;
     private Slider initialAngleSlider;    
     private Slider strokeWidthSlider;
+    private SimpleLongProperty timeDelayProp = new SimpleLongProperty(2000);
+    private SimpleBooleanProperty centeredMenu = new SimpleBooleanProperty(true);
+
+    RadialMenuItem operatorMenuItem; 
+    BandEmitter centerBe;
+    BandEmitter operatorBe;
+    ArrayList<BandEmitter> bandEmitters = new ArrayList<>();
+    TranslateTransition pt;
+    FadeTransition textFadeTransition;
     
     @Override
     public void start(Stage stage) {
         radialMenu = createCenterRadialMenu();
         radialMenu.setTranslateX(750);
         radialMenu.setTranslateY(400);        
-        Pane pane = new Pane(radialMenu);
-        HBox colors = createColorControls();
+        Pane pane = new Pane();
+        VBox colors = createColorControls();
+        colors.setAlignment(Pos.CENTER);
         VBox controls = createSliderControls();
         BorderPane bp = new BorderPane(pane);
         ScrollPane sp = new ScrollPane(controls);
         sp.setFitToWidth(true);
         sp.setVbarPolicy(ScrollPane.ScrollBarPolicy.AS_NEEDED);
         bp.setBottom(sp);
-        bp.setTop(colors);
+        bp.setRight(colors);
         //make transparent so it doesn't interfere with subnode transparency effects
         Background transBack = new Background(new BackgroundFill(
                 Color.TRANSPARENT, CornerRadii.EMPTY, Insets.EMPTY));
@@ -109,14 +139,132 @@ public class App extends Application {
         String CSS = this.getClass().getResource("/radial/cornerradialmenu/css/styles.css").toExternalForm();
         scene.getStylesheets().add(CSS);     
         
+        bandEmitters = createBandEmitters();
+         pane.getChildren().addAll(centerBe, radialMenu);
+//        radialMenu.setViewOrder(0);
+//        be.setViewOrder(10);
+        Task animationTask = new Task() {
+            @Override
+            protected Void call() throws Exception {
+                while(!this.isCancelled() && !this.isDone()) {
+                    updateBands();
+                    Thread.sleep(timeDelayProp.get());
+                }
+                return null;
+            }
+        };
+        Thread animationThread = new Thread(animationTask);
+        animationThread.setDaemon(true);
+        animationThread.start();        
+        
         radialMenu.hideRadialMenu();
+        pt = new TranslateTransition(Duration.seconds(1.0), radialMenu);
+//        pt.setOnFinished(event -> setConfig(centeredMenu.get()));
+
+        radialMenu.translateXProperty().addListener((o,t,t1) -> {
+            centerBe.setGeneratorCenterX(radialMenu.getTranslateX());
+        });
+        radialMenu.translateYProperty().addListener((o,t,t1) -> {
+            centerBe.setGeneratorCenterY(radialMenu.getTranslateY());
+        });        
+        radialMenu.centerGroup.addEventHandler(MouseEvent.MOUSE_CLICKED, e-> {
+//            Platform.runLater(()->{
+                if(e.isControlDown()) {
+                    pt.stop();
+                    radialMenu.hideRadialMenu();
+                    if(radialMenu.getTranslateX() != CORNER_ITEM_SIZE) {
+                        centeredMenu.set(false);
+                        setConfig(centeredMenu.get());
+                        pt.setToX(CORNER_ITEM_SIZE);
+                        pt.setToY(CORNER_ITEM_SIZE);
+                        pt.setFromX(750);
+                        pt.setFromY(400);
+                        pt.play();
+                    } else {
+                        centeredMenu.set(true);
+                        pt.setToX(750);
+                        pt.setToY(400);
+                        pt.setFromX(CORNER_ITEM_SIZE);
+                        pt.setFromY(CORNER_ITEM_SIZE);
+                        pt.play();
+                        setConfig(centeredMenu.get());
+                    }
+                }
+//            });
+            e.consume();
+        });
         stage.setScene(scene);
         stage.show();
     }
-    
-    private HBox createColorControls() {
-        HBox hbox = new HBox(10);
-        hbox.setAlignment(Pos.CENTER);
+    private void setConfig(boolean isCentered) {
+        if(isCentered) {
+            radialMenu.setRadius(MENU_SIZE);
+            radialMenu.setInnerRadius(ITEM_SIZE);
+            radialMenu.setInitialAngle(INITIAL_ANGLE);
+            radialMenu.setGraphicsFitWidth(ITEM_FIT_WIDTH);
+            radialMenu.setOffset(OFFSET);            
+        } else {
+            radialMenu.setRadius(CORNER_MENU_SIZE);
+            radialMenu.setInnerRadius(CORNER_ITEM_SIZE);
+            radialMenu.setInitialAngle(CORNER_INITIAL_ANGLE);
+            radialMenu.setGraphicsFitWidth(CORNER_ITEM_FIT_WIDTH);
+            radialMenu.setOffset(CORNER_OFFSET);
+        }
+    }
+    private ArrayList<BandEmitter> createBandEmitters() {
+        bandEmitters = new ArrayList<>();
+        centerBe = new BandEmitter(60, 1.1, ITEM_SIZE, 3);
+        centerBe.setGeneratorCenterX(radialMenu.getTranslateX());
+        centerBe.setGeneratorCenterY(radialMenu.getTranslateY());
+        centerBe.setMouseTransparent(true);
+        bandEmitters.add(centerBe);
+        operatorBe = new BandEmitter(60, 1.1, ITEM_SIZE, 3);
+        operatorBe.setGeneratorCenterX(operatorMenuItem.getTranslateX());
+        operatorBe.setGeneratorCenterY(operatorMenuItem.getTranslateY());
+        operatorBe.setMouseTransparent(true);
+        operatorBe.setQuadBandCreator(new PathQuadBandCreator(
+            operatorMenuItem.path, operatorBe.getEdgeVariation(), 
+            operatorMenuItem.getTranslateX(), operatorMenuItem.getTranslateY(),
+            operatorBe.getVelocity()));
+        bandEmitters.add(operatorBe);
+        return bandEmitters;
+        
+    }
+    public void updateBands() {
+            Platform.runLater(()-> {
+    //            bandEmitters.stream().forEach(be -> {
+    //                be.setPolygonPoints(Double.valueOf(pointsSlider.getValue()).intValue());
+                    //CircleQuadBandCreator specific fields
+                    CircleQuadBandCreator cqbc = (CircleQuadBandCreator) centerBe.getQuadBandCreator();
+                    cqbc.setInitialRadius(innerRadiusSlider.getValue());
+                    if(radialMenu.mouseOnProperty.get())
+                        cqbc.setVelocity(0.95);
+                    else
+                        cqbc.setVelocity(1.1);
+
+    //                be.setEdgeVariation(pointDivergenceSlider.getValue());
+    //                be.setVelocity(velocitySlider.getValue());
+                    centerBe.setPathThickness(0.15);
+    //                be.setEffect(collectEffects());
+    //                be.setOpacity(opacitySlider.getValue());
+    //                be.setShowPoints(true);
+    //                if(showPathLines.isSelected())
+                        centerBe.setCustomStroke(BandEmitter.DEFAULT_STROKE);
+    //                else
+    //                    be.setCustomStroke(Color.TRANSPARENT);
+    //                if(enableGradientFill.isSelected())
+    //                    be.setCustomFill(gradient1);
+    //                else
+    //                    be.setCustomFill(BandEmitter.DEFAULT_FILL);
+                    centerBe.setCustomFill(Color.CYAN.deriveColor(1, 1, 1, 0.15));
+    //            });
+                    if(centeredMenu.get() || radialMenu.mouseOnProperty.get())
+                        centerBe.createQuadBand();
+            });
+    }        
+    private VBox createColorControls() {
+        VBox vbox = new VBox(10);
+        vbox.setAlignment(Pos.CENTER);
         bglg1ColorPicker = new ColorPicker(bgLg1Color);
         bglg1ColorPicker.valueProperty().addListener((ov, t, t1) -> {
             radialMenu.setBackgroundFill(new LinearGradient(0, 0, 1, 1, true, CycleMethod.NO_CYCLE,
@@ -172,17 +320,16 @@ public class App extends Application {
             radialMenu.setOutlineStrokeMouseOnFill(t1);
        });        
         
-        hbox.getChildren().addAll(bglg1ColorPicker, bglg2ColorPicker, bgMolg1ColorPicker, bgMolg2ColorPicker, 
+        vbox.getChildren().addAll(bglg1ColorPicker, bglg2ColorPicker, bgMolg1ColorPicker, bgMolg2ColorPicker, 
                     strokeColorPicker, strokeMoColorPicker, outlineColorPicker, outlineMoColorPicker);
-        return hbox;
+        return vbox;
     }
 
     private VBox createSliderControls() {
         VBox vbox = new VBox(10);
         itemSizeSlider = new Slider(10, 200, ITEM_SIZE);
         itemSizeSlider.valueProperty().addListener((ov, t, t1) -> {
-            radialMenu.items.stream().forEach(item -> 
-                item.setMenuSize(ov.getValue().doubleValue()));
+            radialMenu.setMenuItemSize(ov.getValue().doubleValue());
         });
         innerRadiusSlider = new Slider(10, 200, ITEM_SIZE);
         innerRadiusSlider.valueProperty().addListener((ov, t, t1) -> 
@@ -190,20 +337,7 @@ public class App extends Application {
         
         itemFitWidthSlider = new Slider(10, 200, ITEM_FIT_WIDTH);
         itemFitWidthSlider.valueProperty().addListener((ov, t, t1) -> {
-            Node centerNode = radialMenu.getCenterGraphic();
-            if(centerNode instanceof ImageView) {
-                ImageView civ = (ImageView)centerNode;
-                civ.setFitWidth(ov.getValue().doubleValue());
-                civ.setTranslateX(-ov.getValue().doubleValue() / 2.0);
-                civ.setTranslateY(-ov.getValue().doubleValue() / 2.0);
-            }
-            radialMenu.items.stream().forEach(item -> {
-                Node node = item.getGraphic();
-                if(node instanceof ImageView) {
-                    ImageView iv = (ImageView)node;
-                    iv.setFitWidth(ov.getValue().doubleValue());
-                }
-            });
+            radialMenu.setGraphicsFitWidth(t1.doubleValue());
         });
 
         menuSizeSlider = new Slider(10, 1000, MENU_SIZE);
@@ -229,7 +363,7 @@ public class App extends Application {
     }
     
     private void hideRadialMenu() {
-        FadeTransition fade = new FadeTransition(Duration.millis(300), radialMenu);
+        FadeTransition fade = new FadeTransition(Duration.millis(750), radialMenu);
         fade.setFromValue(1);
         fade.setToValue(0);
         fade.setOnFinished(e->radialMenu.setVisible(false));
@@ -344,8 +478,8 @@ public class App extends Application {
                 textFadeTransition.play();
             }
         };
-
-        radialMenu.addMenuItem(new RadialMenuItem(ITEM_SIZE, "Operator View", operatorView, handler));
+        operatorMenuItem = new RadialMenuItem(ITEM_SIZE, "Operator View", operatorView, handler);
+        radialMenu.addMenuItem(operatorMenuItem);
         radialMenu.addMenuItem(new RadialMenuItem(ITEM_SIZE, "Configuration", configuration, handler));
         radialMenu.addMenuItem(new RadialMenuItem(ITEM_SIZE, "Metrics", metrics, handler));
         radialMenu.addMenuItem(new RadialMenuItem(ITEM_SIZE, "Scenario Generator", scenariogenerator, handler));
