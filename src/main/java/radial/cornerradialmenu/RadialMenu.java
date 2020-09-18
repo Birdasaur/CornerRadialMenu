@@ -76,6 +76,7 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
     protected DoubleProperty radius;
     protected DoubleProperty offset;
     protected DoubleProperty initialAngle;
+    protected DoubleProperty itemFitWidth;
     protected ObjectProperty<Paint> backgroundFill;
     protected ObjectProperty<Paint> backgroundMouseOnFill;
 
@@ -254,7 +255,13 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
     public DoubleProperty initialAngleProperty() {
         return this.initialAngle;
     }
+    public double getItemFitWidth() {
+        return itemFitWidth.get();
+    }
 
+    public DoubleProperty itemFitWidthProperty() {
+        return itemFitWidth;
+    }
     public double getInnerRadius() {
         return this.innerRadius.get();
     }
@@ -318,19 +325,27 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
 
         this.itemGroup = new Group();
         this.getChildren().add(this.itemGroup);
-
+        itemFitWidth = new SimpleDoubleProperty(innerRadius);
+        itemFitWidth.addListener(new ChangeListener<Number>() {
+            @Override
+            public void changed(
+                final ObservableValue<? extends Number> paramObservableValue,
+                final Number paramT1, final Number paramT2) {
+                    setGraphicsFitWidth(paramObservableValue.getValue().doubleValue());
+            }            
+        });
+        
         this.initialAngle = new SimpleDoubleProperty(initialAngle);
         this.initialAngle.addListener(new ChangeListener<Number>() {
             @Override
             public void changed(
                 final ObservableValue<? extends Number> paramObservableValue,
                 final Number paramT1, final Number paramT2) {
-                    RadialMenu.this.setInitialAngle(paramObservableValue.getValue().doubleValue());
+                    setInitialAngle(paramObservableValue.getValue().doubleValue());
             }
         });
 
         this.innerRadius = new SimpleDoubleProperty(innerRadius);
-        
         this.strokeFill = new SimpleObjectProperty<>(strokeFill);
         this.strokeFill.addListener(this);
         this.strokeWidth = new SimpleDoubleProperty(DEFAULT_STROKE_WIDTH);
@@ -373,27 +388,29 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
         this.centerGroup.setOnMouseEntered(new EventHandler<MouseEvent>() {
             @Override
             public void handle(final MouseEvent event) {
-                RadialMenu.this.mouseOn = true;
+                mouseOn = true;
                 mouseOnProperty.set(mouseOn);
-                RadialMenu.this.redraw();
+                redraw();
             }
         });
         this.centerGroup.setOnMouseExited(new EventHandler<MouseEvent>() {
             @Override
             public void handle(final MouseEvent event) {
-                RadialMenu.this.mouseOn = false;
+                mouseOn = false;
                 mouseOnProperty.set(mouseOn);
-                RadialMenu.this.redraw();
+                redraw();
             }
         });
         this.centerGroup.setOnMouseClicked(new EventHandler<MouseEvent>() {
             @Override
             public void handle(final MouseEvent event) {
-                final boolean visible = itemGroup.isVisible();
-                if (visible) {
-                    RadialMenu.this.hideRadialMenu();
-                } else {
-                    RadialMenu.this.showRadialMenu();
+                if(!event.isControlDown()) {
+                    final boolean visible = itemGroup.isVisible();
+                    if (visible) {
+                        RadialMenu.this.hideRadialMenu();
+                    } else {
+                        RadialMenu.this.showRadialMenu();
+                    }
                 }
                 event.consume();
             }
@@ -656,6 +673,7 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
     public void requestDraw() {
         redraw();
     }
+
     private void redraw() {
         if (this.centerVisibility.get() == CenterVisibility.NEVER) {
             this.centerGroup.visibleProperty().set(false);

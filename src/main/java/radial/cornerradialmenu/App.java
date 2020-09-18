@@ -113,6 +113,7 @@ public class App extends Application {
     ArrayList<BandEmitter> bandEmitters = new ArrayList<>();
     TranslateTransition pt;
     FadeTransition textFadeTransition;
+    Timeline animation;
     
     @Override
     public void start(Stage stage) {
@@ -170,25 +171,46 @@ public class App extends Application {
         radialMenu.centerGroup.addEventHandler(MouseEvent.MOUSE_CLICKED, e-> {
 //            Platform.runLater(()->{
                 if(e.isControlDown()) {
+                    centeredMenu.set(!centeredMenu.get());
+ 
                     pt.stop();
-                    radialMenu.hideRadialMenu();
-                    if(radialMenu.getTranslateX() != CORNER_ITEM_SIZE) {
-                        centeredMenu.set(false);
-                        setConfig(centeredMenu.get());
-                        pt.setToX(CORNER_ITEM_SIZE);
-                        pt.setToY(CORNER_ITEM_SIZE);
-                        pt.setFromX(750);
-                        pt.setFromY(400);
-                        pt.play();
+                    
+                    if(centeredMenu.get()) {
+                        animation = new Timeline(
+                            new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.initialAngleProperty(), INITIAL_ANGLE)),
+                            new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.offsetProperty(), OFFSET)),
+                            new KeyFrame(Duration.seconds(2), new KeyValue(radialMenu.itemFitWidthProperty(), ITEM_FIT_WIDTH)),
+                            new KeyFrame(Duration.seconds(2), new KeyValue(radialMenu.innerRadiusProperty(), ITEM_SIZE)),
+                            new KeyFrame(Duration.seconds(2), new KeyValue(radialMenu.radiusProperty(), MENU_SIZE))
+                        );  
+                        
                     } else {
-                        centeredMenu.set(true);
-                        pt.setToX(750);
-                        pt.setToY(400);
-                        pt.setFromX(CORNER_ITEM_SIZE);
-                        pt.setFromY(CORNER_ITEM_SIZE);
-                        pt.play();
-                        setConfig(centeredMenu.get());
+                        animation = new Timeline(
+                            new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.initialAngleProperty(), CORNER_INITIAL_ANGLE)),
+                            new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.offsetProperty(), CORNER_OFFSET)),
+                            new KeyFrame(Duration.seconds(2), new KeyValue(radialMenu.itemFitWidthProperty(), CORNER_ITEM_FIT_WIDTH)),
+                            new KeyFrame(Duration.seconds(2), new KeyValue(radialMenu.innerRadiusProperty(), CORNER_ITEM_SIZE)),
+                            new KeyFrame(Duration.seconds(2), new KeyValue(radialMenu.radiusProperty(), CORNER_MENU_SIZE))
+                        );                                                       
                     }
+//                    animation.setOnFinished(onFinished->radialMenu.hideRadialMenu());
+                    animation.play();
+//                    if(radialMenu.getTranslateX() != CORNER_ITEM_SIZE) {
+//                        setConfig(centeredMenu.get());
+//                        pt.setToX(CORNER_ITEM_SIZE);
+//                        pt.setToY(CORNER_ITEM_SIZE);
+//                        pt.setFromX(750);
+//                        pt.setFromY(400);
+//                        pt.play();
+//                    } else {
+//                        centeredMenu.set(true);
+//                        pt.setToX(750);
+//                        pt.setToY(400);
+//                        pt.setFromX(CORNER_ITEM_SIZE);
+//                        pt.setFromY(CORNER_ITEM_SIZE);
+//                        pt.play();
+//                        setConfig(centeredMenu.get());
+//                    }
                 }
 //            });
             e.consume();
