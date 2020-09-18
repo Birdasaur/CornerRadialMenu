@@ -65,18 +65,20 @@ public class App extends Application {
     protected double lastInitialAngleValue;
     private RadialMenu radialMenu;
     double ITEM_SIZE = 70.0;
+    double INNER_RADIUS = 70.0;
     double ITEM_FIT_WIDTH = 70.0;
     double MENU_SIZE = 250.0;
     double OFFSET = 30.0;
     double INITIAL_ANGLE = -50.0;
     double STROKE_WIDTH = 1.5;
 
-    double CORNER_ITEM_SIZE = 30.0;
-    double CORNER_ITEM_FIT_WIDTH = 20.0;
-    double CORNER_MENU_SIZE = 70.0;
-    double CORNER_OFFSET = 5.0;
-    double CORNER_INITIAL_ANGLE = 260.0;
-    double CORNER_STROKE_WIDTH = 0.75;
+    double CORNER_ITEM_SIZE = 38.0;
+    double CORNER_INNER_RADIUS = 30;
+    double CORNER_ITEM_FIT_WIDTH = 30.0;
+    double CORNER_MENU_SIZE = 80.0;
+    double CORNER_OFFSET = 4.0;
+    double CORNER_INITIAL_ANGLE = 240.0;
+    double CORNER_STROKE_WIDTH = 0.5;
     
     
     Color bgLg1Color = Color.DARKCYAN.deriveColor(1, 1, 1, 0.2);
@@ -170,7 +172,7 @@ public class App extends Application {
         tt = new TranslateTransition(Duration.seconds(1.0), radialMenu);
 
         radialMenu.centerGroup.addEventHandler(MouseEvent.MOUSE_CLICKED, e-> {
-//            Platform.runLater(()->{
+
                 if(e.isControlDown()) {
                     centeredMenu.set(!centeredMenu.get());
                     if(centeredMenu.get()) {
@@ -182,10 +184,10 @@ public class App extends Application {
                             new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.offsetProperty(), OFFSET)),
                             new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.menuItemSizeProperty(), ITEM_SIZE)),
                             new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.itemFitWidthProperty(), ITEM_FIT_WIDTH)),
-                            new KeyFrame(Duration.seconds(2), new KeyValue(radialMenu.initialAngleProperty(), INITIAL_ANGLE)),
-                            new KeyFrame(Duration.seconds(2), new KeyValue(radialMenu.innerRadiusProperty(), ITEM_SIZE)),
-                            new KeyFrame(Duration.seconds(2), new KeyValue(radialMenu.radiusProperty(), MENU_SIZE)),
-                            new KeyFrame(Duration.seconds(2.5), new KeyValue(radialMenu.strokeWidthProperty(), STROKE_WIDTH))
+                            new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.innerRadiusProperty(), INNER_RADIUS)),
+                            new KeyFrame(Duration.seconds(1.01), new KeyValue(radialMenu.initialAngleProperty(), INITIAL_ANGLE)),
+                            new KeyFrame(Duration.seconds(1.1), new KeyValue(radialMenu.radiusProperty(), MENU_SIZE)),
+                            new KeyFrame(Duration.seconds(1.2), new KeyValue(radialMenu.strokeWidthProperty(), STROKE_WIDTH))
                                 
                         );  
                     } else {
@@ -197,33 +199,15 @@ public class App extends Application {
                             new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.offsetProperty(), CORNER_OFFSET)),
                             new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.menuItemSizeProperty(), CORNER_ITEM_SIZE)),
                             new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.itemFitWidthProperty(), CORNER_ITEM_FIT_WIDTH)),
-                            new KeyFrame(Duration.seconds(2), new KeyValue(radialMenu.initialAngleProperty(), CORNER_INITIAL_ANGLE)),
-                            new KeyFrame(Duration.seconds(2), new KeyValue(radialMenu.innerRadiusProperty(), CORNER_ITEM_SIZE)),
-                            new KeyFrame(Duration.seconds(2), new KeyValue(radialMenu.radiusProperty(), CORNER_MENU_SIZE)),
-                            new KeyFrame(Duration.seconds(2.5), new KeyValue(radialMenu.strokeWidthProperty(), CORNER_STROKE_WIDTH))
+                            new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.innerRadiusProperty(), CORNER_INNER_RADIUS)),
+                            new KeyFrame(Duration.seconds(1.01), new KeyValue(radialMenu.initialAngleProperty(), CORNER_INITIAL_ANGLE)),
+                            new KeyFrame(Duration.seconds(1.1), new KeyValue(radialMenu.radiusProperty(), CORNER_MENU_SIZE)),
+                            new KeyFrame(Duration.seconds(1.2), new KeyValue(radialMenu.strokeWidthProperty(), CORNER_STROKE_WIDTH))
                         );                                                       
                     }
-//                    animation.play();
                     pt = new ParallelTransition(tt, animation);
                     pt.play();
-//                    if(radialMenu.getTranslateX() != CORNER_ITEM_SIZE) {
-//                        setConfig(centeredMenu.get());
-//                        pt.setToX(CORNER_ITEM_SIZE);
-//                        pt.setToY(CORNER_ITEM_SIZE);
-//                        pt.setFromX(750);
-//                        pt.setFromY(400);
-//                        pt.play();
-//                    } else {
-//                        centeredMenu.set(true);
-//                        pt.setToX(750);
-//                        pt.setToY(400);
-//                        pt.setFromX(CORNER_ITEM_SIZE);
-//                        pt.setFromY(CORNER_ITEM_SIZE);
-//                        pt.play();
-//                        setConfig(centeredMenu.get());
-//                    }
                 }
-//            });
             e.consume();
         });
         stage.setScene(scene);
