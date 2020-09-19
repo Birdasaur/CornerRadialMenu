@@ -28,7 +28,7 @@
  */
 /**
  * @author Birdasaur
- * @adapted From Mr. LoNee's awesome RadialMenu example. Source for original 
+ * heavily adapted From Mr. LoNee's awesome RadialMenu example. Source for original 
  * prototype can be found in JFXtras-labs project.
  * https://github.com/JFXtras/jfxtras-labs
  */
@@ -36,7 +36,6 @@ package radial.cornerradialmenu;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javafx.animation.Animation;
 import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
@@ -51,7 +50,6 @@ import javafx.beans.property.SimpleDoubleProperty;
 import javafx.beans.property.SimpleObjectProperty;
 import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
-import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.Node;
@@ -107,7 +105,7 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
     
     
     public Paint getBackgroundFill() {
-        return this.backgroundFill.get();
+        return backgroundFill.get();
     }
 
     public void setBackgroundFill(final Paint backgroundFill) {
@@ -115,11 +113,11 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
     }
 
     public ObjectProperty<Paint> backgroundFillProperty() {
-        return this.backgroundFill;
+        return backgroundFill;
     }
 
     public Paint getBackgroundMouseOnFill() {
-        return this.backgroundMouseOnFill.get();
+        return backgroundMouseOnFill.get();
     }
 
     public void setBackgroundMouseOnFill(final Paint backgroundMouseOnFill) {
@@ -127,23 +125,23 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
     }
 
     public ObjectProperty<Paint> backgroundMouseOnFillProperty() {
-        return this.backgroundMouseOnFill;
+        return backgroundMouseOnFill;
     }
 
     public Paint getStrokeMouseOnFill() {
-        return this.strokeMouseOnFill.get();
+        return strokeMouseOnFill.get();
     }
 
     public void setStrokeMouseOnFill(final Paint backgroundMouseOnFill) {
-        this.strokeMouseOnFill.set(backgroundMouseOnFill);
+        strokeMouseOnFill.set(backgroundMouseOnFill);
     }
 
     public ObjectProperty<Paint> strokeMouseOnFillProperty() {
-        return this.strokeMouseOnFill;
+        return strokeMouseOnFill;
     }
 
     public Paint getStrokeFill() {
-        return this.strokeFill.get();
+        return strokeFill.get();
     }
 
     public void setStrokeFill(final Paint strokeFill) {
@@ -151,76 +149,76 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
     }
 
     public ObjectProperty<Paint> strokeFillProperty() {
-        return this.strokeFill;
+        return strokeFill;
     }
 
     public double getStrokeWidth() {
-        return this.strokeWidth.get();
+        return strokeWidth.get();
     }
 
     public void setStrokeWidth(final double width) {
-        this.strokeWidth.set(width);
+        strokeWidth.set(width);
     }
 
     public DoubleProperty strokeWidthProperty() {
-        return this.strokeWidth;
+        return strokeWidth;
     }
 
     public BooleanProperty strokeVisibleProperty() {
-        return this.strokeVisible;
+        return strokeVisible;
     }
 
     public boolean isStrokeVisible() {
-        return this.strokeVisible.get();
+        return strokeVisible.get();
     }
 
 
     public Paint getOutlineStrokeMouseOnFill() {
-        return this.outlineStrokeMouseOnFill.get();
+        return outlineStrokeMouseOnFill.get();
     }
 
     public void setOutlineStrokeMouseOnFill(final Paint backgroundMouseOnFill) {
-        this.outlineStrokeMouseOnFill.set(backgroundMouseOnFill);
+        outlineStrokeMouseOnFill.set(backgroundMouseOnFill);
     }
 
     public ObjectProperty<Paint> outlineStrokeMouseOnFillProperty() {
-        return this.outlineStrokeMouseOnFill;
+        return outlineStrokeMouseOnFill;
     }
 
     public Paint getOutlineStrokeFill() {
-        return this.outlineStrokeFill.get();
+        return outlineStrokeFill.get();
     }
 
     public void setOutlineStrokeFill(final Paint strokeFill) {
-        this.outlineStrokeFill.set(strokeFill);
+        outlineStrokeFill.set(strokeFill);
     }
 
     public ObjectProperty<Paint> outlineStrokeFillProperty() {
-        return this.outlineStrokeFill;
+        return outlineStrokeFill;
     }
 
     public double getOutlineStrokeWidth() {
-        return this.outlineStrokeWidth.get();
+        return outlineStrokeWidth.get();
     }
 
     public void setOutlineStrokeWidth(final double width) {
-        this.outlineStrokeWidth.set(width);
+        outlineStrokeWidth.set(width);
     }
 
     public DoubleProperty outlineStrokeWidthProperty() {
-        return this.outlineStrokeWidth;
+        return outlineStrokeWidth;
     }
 
     public BooleanProperty outlineStrokeVisibleProperty() {
-        return this.outlineStrokeVisible;
+        return outlineStrokeVisible;
     }
 
     public boolean isOutlinStrokeVisible() {
-        return this.outlineStrokeVisible.get();
+        return outlineStrokeVisible.get();
     }
 
     public Effect getOutlineEffect() {
-        return this.outlineEffect.get();
+        return outlineEffect.get();
     }
 
     public void setOutlineEffect(final Effect outlineEffect) {
@@ -228,33 +226,33 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
     }
 
     public ObjectProperty<Effect> outlineEffectProperty() {
-        return this.outlineEffect;
+        return outlineEffect;
     }    
     
     public Node getCenterGraphic() {
-        return this.centerGraphic.get();
+        return centerGraphic.get();
     }
 
     public void setCenterGraphic(final Node graphic) {
-        if (this.centerGraphic.get() != null) {
-            this.centerGroup.getChildren().remove(this.centerGraphic.get());
+        if (centerGraphic.get() != null) {
+            centerGroup.getChildren().remove(centerGraphic.get());
         }
         if (graphic != null) {
-            this.centerGroup.getChildren().add(graphic);
+            centerGroup.getChildren().add(graphic);
         }
-        this.centerGraphic.set(graphic);
+        centerGraphic.set(graphic);
     }
 
     public ObjectProperty<Node> centerGraphicProperty() {
-        return this.centerGraphic;
+        return centerGraphic;
     }
 
     public double getInitialAngle() {
-        return this.initialAngle.get();
+        return initialAngle.get();
     }
 
     public DoubleProperty initialAngleProperty() {
-        return this.initialAngle;
+        return initialAngle;
     }
     public double getItemFitWidth() {
         return itemFitWidth.get();
@@ -272,55 +270,55 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
     }
 
     public double getInnerRadius() {
-        return this.innerRadius.get();
+        return innerRadius.get();
     }
 
     public DoubleProperty innerRadiusProperty() {
-        return this.innerRadius;
+        return innerRadius;
     }
 
     public double getRadius() {
-        return this.radius.get();
+        return radius.get();
     }
 
     public DoubleProperty radiusProperty() {
-        return this.radius;
+        return radius;
     }
 
     public double getOffset() {
-        return this.offset.get();
+        return offset.get();
     }
 
     public DoubleProperty offsetProperty() {
-        return this.offset;
+        return offset;
     }
 
     public boolean isClockwise() {
-        return this.clockwise.get();
+        return clockwise.get();
     }
 
     public BooleanProperty clockwiseProperty() {
-        return this.clockwise;
+        return clockwise;
     }
 
     public boolean isBackgroundVisible() {
-        return this.backgroundVisible.get();
+        return backgroundVisible.get();
     }
 
     public BooleanProperty backgroundVisibleProperty() {
-        return this.backgroundVisible;
+        return backgroundVisible;
     }
 
     public ObjectProperty<CenterVisibility> centerVisibilityProperty() {
-        return this.centerVisibility;
+        return centerVisibility;
     }
 
     public CenterVisibility getCenterVisibility() {
-        return this.centerVisibility.get();
+        return centerVisibility.get();
     }
 
     public void setCenterVisibility(final CenterVisibility visibility) {
-        this.centerVisibility.set(visibility);
+        centerVisibility.set(visibility);
     }
 
     public RadialMenu() {
@@ -332,47 +330,32 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
                       final Paint strokeMouseOnFill, final boolean clockwise,
                       final CenterVisibility centerVisibility, final Node centerGraphic) {
 
-        this.itemGroup = new Group();
-        this.getChildren().add(this.itemGroup);
+        itemGroup = new Group();
+        getChildren().add(itemGroup);
         
         itemFitWidth = new SimpleDoubleProperty(innerRadius);
-        itemFitWidth.addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(
-                final ObservableValue<? extends Number> paramObservableValue,
-                final Number paramT1, final Number paramT2) {
-                    setGraphicsFitWidth(paramObservableValue.getValue().doubleValue());
-            }            
+        itemFitWidth.addListener((ov,t,t1) -> {
+             setGraphicsFitWidth(ov.getValue().doubleValue());
         });
         menuItemSize = new SimpleDoubleProperty(innerRadius);
-        menuItemSize.addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(
-                final ObservableValue<? extends Number> paramObservableValue,
-                final Number paramT1, final Number paramT2) {
-                    setMenuItemSize(paramObservableValue.getValue().doubleValue());
-            }            
+        menuItemSize.addListener((ov,t,t1) -> {
+            setMenuItemSize(ov.getValue().doubleValue());
         });
         
         this.initialAngle = new SimpleDoubleProperty(initialAngle);
-        this.initialAngle.addListener(new ChangeListener<Number>() {
-            @Override
-            public void changed(
-                final ObservableValue<? extends Number> paramObservableValue,
-                final Number paramT1, final Number paramT2) {
-                    setInitialAngle(paramObservableValue.getValue().doubleValue());
-            }
+        this.initialAngle.addListener((ov,t,t1) -> {
+            setInitialAngle(ov.getValue().doubleValue());
         });
 
         this.innerRadius = new SimpleDoubleProperty(innerRadius);
         this.strokeFill = new SimpleObjectProperty<>(strokeFill);
         this.strokeFill.addListener(this);
-        this.strokeWidth = new SimpleDoubleProperty(DEFAULT_STROKE_WIDTH);
-        this.strokeWidth.addListener(this);        
+        strokeWidth = new SimpleDoubleProperty(DEFAULT_STROKE_WIDTH);
+        strokeWidth.addListener(this);        
         this.strokeMouseOnFill = new SimpleObjectProperty<>(strokeMouseOnFill);
         this.strokeMouseOnFill.addListener(this);
-        this.strokeVisible = new SimpleBooleanProperty(true);
-        this.strokeVisible.addListener(this);
+        strokeVisible = new SimpleBooleanProperty(true);
+        strokeVisible.addListener(this);
         
         outlineStrokeFill = new SimpleObjectProperty<>(strokeFill);
         outlineStrokeFill.addListener(this);
@@ -388,59 +371,47 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
         this.radius = new SimpleDoubleProperty(radius);
         this.offset = new SimpleDoubleProperty(offset);
         this.clockwise = new SimpleBooleanProperty(clockwise);
-        this.backgroundFill = new SimpleObjectProperty<>(bgFill);
-        this.backgroundFill.addListener(this);
-        this.backgroundMouseOnFill = new SimpleObjectProperty<>(bgMouseOnFill);
-        this.backgroundMouseOnFill.addListener(this);
-        this.backgroundVisible = new SimpleBooleanProperty(true);
+        backgroundFill = new SimpleObjectProperty<>(bgFill);
+        backgroundFill.addListener(this);
+        backgroundMouseOnFill = new SimpleObjectProperty<>(bgMouseOnFill);
+        backgroundMouseOnFill.addListener(this);
+        backgroundVisible = new SimpleBooleanProperty(true);
         this.centerVisibility = new SimpleObjectProperty<>(centerVisibility);
-        this.centerStrokeShape = new Circle(innerRadius);
-        this.centerStrokeShape.radiusProperty().bind(innerRadiusProperty());
-        this.centerStrokeShape.setStroke(strokeFill);
-        this.centerStrokeShape.setStrokeWidth(strokeWidth.get());
-        this.centerStrokeShape.setFill(bgFill);
+        centerStrokeShape = new Circle(innerRadius);
+        centerStrokeShape.radiusProperty().bind(innerRadiusProperty());
+        centerStrokeShape.setStroke(strokeFill);
+        centerStrokeShape.setStrokeWidth(strokeWidth.get());
+        centerStrokeShape.setFill(bgFill);
         this.centerVisibility.addListener(this);
-        this.backgroundVisible.addListener(this);
+        backgroundVisible.addListener(this);
 
-        this.centerGroup = new Group();
-        this.centerGroup.getChildren().add(this.centerStrokeShape);
-        this.centerGroup.setOnMouseEntered(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(final MouseEvent event) {
-                mouseOn = true;
-                mouseOnProperty.set(mouseOn);
-                redraw();
-            }
+        centerGroup = new Group();
+        centerGroup.getChildren().add(centerStrokeShape);
+        centerGroup.setOnMouseEntered(event -> {
+            mouseOn = true;
+            mouseOnProperty.set(mouseOn);
+            redraw();
         });
-        this.centerGroup.setOnMouseExited(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(final MouseEvent event) {
-                mouseOn = false;
-                mouseOnProperty.set(mouseOn);
-                redraw();
-            }
+        centerGroup.setOnMouseExited(event -> {
+            mouseOn = false;
+            mouseOnProperty.set(mouseOn);
+            redraw();
         });
-        this.centerGroup.setOnMouseClicked(new EventHandler<MouseEvent>() {
-            @Override
-            public void handle(final MouseEvent event) {
-                if(!event.isControlDown()) {
-                    final boolean visible = itemGroup.isVisible();
-                    if (visible) {
-                        RadialMenu.this.hideRadialMenu();
-                    } else {
-                        RadialMenu.this.showRadialMenu();
-                    }
+        centerGroup.setOnMouseClicked(event -> {
+            if(!event.isControlDown()) {
+                final boolean visible = itemGroup.isVisible();
+                if (visible) {
+                    hideRadialMenu();
+                } else {
+                    showRadialMenu();
                 }
-                event.consume();
             }
+            event.consume();
         });
-
-
-        this.getChildren().add(this.centerGroup);
+        getChildren().add(centerGroup);
         this.centerGraphic = new SimpleObjectProperty<Node>(centerGraphic);
-        this.setCenterGraphic(centerGraphic);
-
-        this.saveStateBeforeAnimation();
+        setCenterGraphic(centerGraphic);
+        saveStateBeforeAnimation();
     }
     
     public void setGraphicsFitWidth(double fitWidth) {
@@ -464,29 +435,27 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
     }
     public void setOnMenuItemMouseClicked(
             final EventHandler<? super MouseEvent> paramEventHandler) {
-        for (final RadialMenuItem item : this.items) {
+        for (final RadialMenuItem item : items) {
             item.setOnMouseClicked(paramEventHandler);
         }
     }
 
     public void setInitialAngle(final double angle) {
-        this.initialAngle.set(angle);
+        initialAngle.set(angle);
 
-        double angleOffset = this.initialAngle.get();
-        for (final RadialMenuItem item : this.items) {
+        double angleOffset = initialAngle.get();
+        for (final RadialMenuItem item : items) {
             item.setStartAngle(angleOffset);
             angleOffset = angleOffset + item.getMenuSize();
         }
     }
 
     public void setInnerRadius(final double radius) {
-        this.innerRadius.set(radius);
-
+        innerRadius.set(radius);
     }
 
     public void setRadius(final double radius) {
         this.radius.set(radius);
-
     }
 
     public void setOffset(final double offset) {
@@ -494,28 +463,27 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
     }
 
     public void setBackgroundVisible(final boolean visible) {
-        this.backgroundVisible.set(visible);
-
+        backgroundVisible.set(visible);
     }
 
     public void setStrokeVisible(final boolean visible) {
-        this.strokeVisible.set(visible);
+        strokeVisible.set(visible);
     }
 
     public void setBackgroundColor(final Paint color) {
-        this.backgroundFill.set(color);
+        backgroundFill.set(color);
     }
 
     public void setBackgroundMouseOnColor(final Paint color) {
-        this.backgroundMouseOnFill.set(color);
+        backgroundMouseOnFill.set(color);
     }
 
     public void setStrokeMouseOnColor(final Paint color) {
-        this.strokeMouseOnFill.set(color);
+        strokeMouseOnFill.set(color);
     }
 
     public void setStrokeColor(final Paint color) {
-        this.strokeFill.set(color);
+        strokeFill.set(color);
     }
 
     public void setClockwise(final boolean clockwise) {
@@ -523,29 +491,29 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
     }
 
     public void addMenuItem(final RadialMenuItem item) {
-        item.visibleProperty().bind(this.visibleProperty());
-        item.backgroundColorProperty().bind(this.backgroundFill);
-        item.backgroundMouseOnColorProperty().bind(this.backgroundMouseOnFill);
-        item.backgroundVisibleProperty().bind(this.backgroundVisible);
+        item.visibleProperty().bind(visibleProperty());
+        item.backgroundColorProperty().bind(backgroundFill);
+        item.backgroundMouseOnColorProperty().bind(backgroundMouseOnFill);
+        item.backgroundVisibleProperty().bind(backgroundVisible);
 
-        item.innerRadiusProperty().bind(this.innerRadius);
-        item.radiusProperty().bind(this.radius);
-        item.offsetProperty().bind(this.offset);
-        item.strokeMouseOnColorProperty().bind(this.strokeMouseOnFill);
-        item.strokeColorProperty().bind(this.strokeFill);
-        item.strokeWidthProperty().bind(this.strokeWidth);
-        item.strokeVisibleProperty().bind(this.strokeVisible);
-        item.outlineStrokeMouseOnColorProperty().bind(this.outlineStrokeMouseOnFill);
-        item.outlineStrokeColorProperty().bind(this.outlineStrokeFill);
-        item.outlineStrokeWidthProperty().bind(this.outlineStrokeWidth);
-        item.outlineStrokeVisibleProperty().bind(this.outlineStrokeVisible);
-        item.outlineEffectProperty().bind(this.outlineEffect);
+        item.innerRadiusProperty().bind(innerRadius);
+        item.radiusProperty().bind(radius);
+        item.offsetProperty().bind(offset);
+        item.strokeMouseOnColorProperty().bind(strokeMouseOnFill);
+        item.strokeColorProperty().bind(strokeFill);
+        item.strokeWidthProperty().bind(strokeWidth);
+        item.strokeVisibleProperty().bind(strokeVisible);
+        item.outlineStrokeMouseOnColorProperty().bind(outlineStrokeMouseOnFill);
+        item.outlineStrokeColorProperty().bind(outlineStrokeFill);
+        item.outlineStrokeWidthProperty().bind(outlineStrokeWidth);
+        item.outlineStrokeVisibleProperty().bind(outlineStrokeVisible);
+        item.outlineEffectProperty().bind(outlineEffect);
 
-        item.clockwiseProperty().bind(this.clockwise);
-        this.items.add(item);
-        this.itemGroup.getChildren().add(this.itemGroup.getChildren().size(), item);
-        double angleOffset = this.initialAngle.get();
-        for (final RadialMenuItem it : this.items) {
+        item.clockwiseProperty().bind(clockwise);
+        items.add(item);
+        itemGroup.getChildren().add(itemGroup.getChildren().size(), item);
+        double angleOffset = initialAngle.get();
+        for (final RadialMenuItem it : items) {
             it.setStartAngle(angleOffset);
             angleOffset = angleOffset + item.getMenuSize();
         }
@@ -553,8 +521,8 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
     }
 
     public void removeMenuItem(final RadialMenuItem item) {
-        this.items.remove(item);
-        this.itemGroup.getChildren().remove(item);
+        items.remove(item);
+        itemGroup.getChildren().remove(item);
         item.visibleProperty().unbind();
         item.backgroundColorProperty().unbind();
         item.backgroundMouseOnColorProperty().unbind();
@@ -577,8 +545,8 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
     }
 
     public void removeMenuItem(final int itemIndex) {
-        final RadialMenuItem item = this.items.get(itemIndex);
-        this.removeMenuItem(item);
+        final RadialMenuItem item = items.get(itemIndex);
+        removeMenuItem(item);
     }
 
     @Override
@@ -586,101 +554,77 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
         if (event.getButton() == MouseButton.PRIMARY) {
             final RadialMenuItem item = (RadialMenuItem) event.getSource();
             item.setSelected(!item.isSelected());
-            for (final RadialMenuItem it : this.items) {
+            for (final RadialMenuItem it : items) {
                 if (it != item) {
                     it.setSelected(false);
                 }
             }
             if (!item.isSelected()) {
-                this.hideRadialMenu();
+                hideRadialMenu();
             }
             event.consume();
         }
     }
 
     public void hideRadialMenu() {
-        this.saveStateBeforeAnimation();
+        saveStateBeforeAnimation();
 
-        final List<Animation> anim = new ArrayList<Animation>();
+        final List<Animation> anim = new ArrayList<>();
 
-        final FadeTransition fadeItemGroup = new FadeTransition(Duration.millis(300), this.itemGroup);
+        final FadeTransition fadeItemGroup = new FadeTransition(Duration.millis(300), itemGroup);
         fadeItemGroup.setFromValue(1);
         fadeItemGroup.setToValue(0);
-        fadeItemGroup.setOnFinished(new EventHandler<ActionEvent>() {
-
-            @Override
-            public void handle(final ActionEvent arg0) {
-                RadialMenu.this.itemGroup.setVisible(false);
-            }
+        fadeItemGroup.setOnFinished(event -> {
+            itemGroup.setVisible(false);
         });
 
         anim.add(fadeItemGroup);
 
-        if (this.centerVisibility.get() == CenterVisibility.WITH_MENU) {
-            final FadeTransition fadeCenter = new FadeTransition(Duration.millis(300), this.centerGroup);
+        if (centerVisibility.get() == CenterVisibility.WITH_MENU) {
+            final FadeTransition fadeCenter = new FadeTransition(Duration.millis(300), centerGroup);
             fadeCenter.setFromValue(1);
             fadeCenter.setToValue(0);
-            fadeCenter.setOnFinished(new EventHandler<ActionEvent>() {
-
-                @Override
-                public void handle(final ActionEvent arg0) {
-                    RadialMenu.this.centerGroup.setVisible(false);
-                }
+            fadeCenter.setOnFinished(event -> {
+                centerGroup.setVisible(false);
             });
             anim.add(fadeCenter);
         }
-
         final ParallelTransition transition = new ParallelTransition(anim.toArray(new Animation[]{}));
-
         transition.play();
     }
 
     public void showRadialMenu() {
-        final List<Animation> anim = new ArrayList<Animation>();
-
-        final FadeTransition fade = new FadeTransition(Duration.millis(400), this.itemGroup);
+        final List<Animation> animationList = new ArrayList<>();
+        final FadeTransition fade = new FadeTransition(Duration.millis(400), itemGroup);
         fade.setFromValue(0);
         fade.setToValue(1.0);
-        anim.add(fade);
+        animationList.add(fade);
 
-        final Animation offset = new Timeline(new KeyFrame(Duration.ZERO,
-                new KeyValue(this.offsetProperty(), 0)), new KeyFrame(
-                Duration.millis(300), new KeyValue(this.offsetProperty(),
-                this.lastOffsetValue)));
-        anim.add(offset);
+        final Animation offsetAnimation = new Timeline(
+            new KeyFrame(Duration.ZERO, new KeyValue(offsetProperty(), 0)), 
+            new KeyFrame(Duration.millis(300), new KeyValue(offsetProperty(), lastOffsetValue)));
+        animationList.add(offsetAnimation);
 
-        final Animation angle = new Timeline(new KeyFrame(Duration.ZERO,
-                new KeyValue(this.initialAngleProperty(),
-                        this.lastInitialAngleValue + 20)), new KeyFrame(
-                Duration.millis(300), new KeyValue(this.initialAngleProperty(),
-                this.lastInitialAngleValue)));
-        anim.add(angle);
+        final Animation angle = new Timeline(
+            new KeyFrame(Duration.ZERO, new KeyValue(initialAngleProperty(), lastInitialAngleValue + 20)), 
+            new KeyFrame(Duration.millis(300), new KeyValue(initialAngleProperty(),lastInitialAngleValue)));
+        animationList.add(angle);
 
-        if (this.centerVisibility.get() == CenterVisibility.WITH_MENU) {
-            final FadeTransition fadeCenter = new FadeTransition(Duration.millis(300), this.centerGroup);
+        if (centerVisibility.get() == CenterVisibility.WITH_MENU) {
+            final FadeTransition fadeCenter = new FadeTransition(Duration.millis(300), centerGroup);
             fadeCenter.setFromValue(0);
             fadeCenter.setToValue(1);
-            anim.add(fadeCenter);
-
-            // final Animation radius = new Timeline(new KeyFrame(Duration.ZERO,
-            // new KeyValue(this.innerRadiusProperty(), 0)), new KeyFrame(
-            // Duration.millis(300), new KeyValue(
-            // this.innerRadiusProperty(),
-            // this.lastInnerRadiusValue)));
-            // anim.add(radius);
-
-            RadialMenu.this.centerGroup.setVisible(true);
+            animationList.add(fadeCenter);
+            centerGroup.setVisible(true);
         }
-
-        final ParallelTransition transition = new ParallelTransition(anim.toArray(new Animation[]{}));
-
-        this.itemGroup.setVisible(true);
+        final ParallelTransition transition = new ParallelTransition(animationList.toArray(new Animation[]{}));
+        itemGroup.setVisible(true);
         transition.play();
     }
 
     private void saveStateBeforeAnimation() {
-        this.lastInitialAngleValue = this.initialAngle.get();
-        this.lastOffsetValue = this.offset.get();
+        lastInitialAngleValue = initialAngle.get();
+        lastOffsetValue = offset.get();
     }
 
     @Override
@@ -694,25 +638,23 @@ public class RadialMenu extends Group implements EventHandler<MouseEvent>,
     }
 
     private void redraw() {
-        if (this.centerVisibility.get() == CenterVisibility.NEVER) {
-            this.centerGroup.visibleProperty().set(false);
-        } else if (this.centerVisibility.get() == CenterVisibility.ALWAYS) {
-            this.centerGroup.visibleProperty().set(true);
+        if (centerVisibility.get() == CenterVisibility.NEVER) {
+            centerGroup.visibleProperty().set(false);
+        } else if (centerVisibility.get() == CenterVisibility.ALWAYS) {
+            centerGroup.visibleProperty().set(true);
         } else {
-            this.centerGroup.visibleProperty().set(this.itemGroup.isVisible());
+            centerGroup.visibleProperty().set(itemGroup.isVisible());
         }
 
-        this.centerStrokeShape
-                .setFill(this.backgroundVisible.get() ? (this.mouseOn
-                        && this.backgroundMouseOnFill.get() != null ? this.backgroundMouseOnFill
-                        .get() : this.backgroundFill.get())
+        centerStrokeShape.setFill(backgroundVisible.get() ? (mouseOn
+                        && backgroundMouseOnFill.get() != null ? backgroundMouseOnFill
+                        .get() : backgroundFill.get())
                         : Color.TRANSPARENT);
-        this.centerStrokeShape
-                .setStroke(this.strokeVisible.get() ? (this.mouseOn
-                        && this.strokeMouseOnFill.get() != null ? this.strokeMouseOnFill
-                        .get() : this.strokeFill.get())
+        centerStrokeShape.setStroke(strokeVisible.get() ? (mouseOn
+                        && strokeMouseOnFill.get() != null ? strokeMouseOnFill
+                        .get() : strokeFill.get())
                         : Color.TRANSPARENT);
-        this.centerStrokeShape.setStrokeWidth(this.strokeWidth.get());
+        centerStrokeShape.setStrokeWidth(strokeWidth.get());
     }
 
     /**

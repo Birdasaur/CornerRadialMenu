@@ -27,7 +27,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- * @adapted From Mr. LoNee's awesome RadialMenu example. Source for original 
+ * adapted From Mr. LoNee's awesome RadialMenu example. Source for original 
  * prototype can be found in JFXtras-labs project.
  * https://github.com/JFXtras/jfxtras-labs
  */
@@ -39,9 +39,7 @@ import javafx.scene.paint.Paint;
 public class RadialCheckMenuItem extends RadialMenuItem {
 
     protected boolean selected = false;
-
     protected Paint selectedColor;
-
     protected Paint selectedMouseOnColor;
 
     public RadialCheckMenuItem(final double menuSize, final Node graphic) {
@@ -73,29 +71,29 @@ public class RadialCheckMenuItem extends RadialMenuItem {
 	super.redraw();
 
 	Paint color = null;
-	if (this.backgroundVisible.get()) {
-	    if (this.selected && this.selectedColor != null) {
-		if (this.mouseOn && this.selectedMouseOnColor != null) {
-		    color = this.selectedMouseOnColor;
+	if (backgroundVisible.get()) {
+	    if (selected && selectedColor != null) {
+		if (mouseOn && selectedMouseOnColor != null) {
+		    color = selectedMouseOnColor;
 		} else {
-		    color = this.selectedColor;
+		    color = selectedColor;
 		}
 	    } else {
-		if (this.mouseOn && this.backgroundMouseOnColor != null) {
-		    color = this.backgroundMouseOnColor.get();
+		if (mouseOn && backgroundMouseOnColor != null) {
+		    color = backgroundMouseOnColor.get();
 		} else {
-		    color = this.backgroundColor.get();
+		    color = backgroundColor.get();
 		}
 	    }
 	}
 
-	this.path.setFill(color);
+	path.setFill(color);
     }
 
     @Override
     void setSelected(final boolean selected) {
 	this.selected = selected;
-	this.redraw();
+	redraw();
     }
 
     @Override

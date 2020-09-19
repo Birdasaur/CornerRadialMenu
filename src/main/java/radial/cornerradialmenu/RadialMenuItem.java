@@ -28,7 +28,7 @@
  */
 /**
  * @author Birdasaur
- * @adapted From Mr. LoNee's awesome RadialMenu example. Source for original 
+ * Adapted From Mr. LoNee's awesome RadialMenu example. Source for original 
  * prototype can be found in JFXtras-labs project.
  * https://github.com/JFXtras/jfxtras-labs
  */
@@ -107,21 +107,21 @@ public class RadialMenuItem extends Group implements ChangeListener<Object> {
     protected String text;
 
     public RadialMenuItem() {
-        this.menuSize = new SimpleDoubleProperty(45);
-        this.menuSize.addListener(this);
-        this.innerRadius.addListener(this);
-	this.radius.addListener(this);
-	this.offset.addListener(this);
-	this.backgroundVisible.addListener(this);
-	this.strokeVisible.addListener(this);
-	this.clockwise.addListener(this);
-	this.backgroundColor.addListener(this);
-	this.strokeColor.addListener(this);
-	this.strokeWidth.addListener(this);
-	this.effect.addListener(this);
-	this.backgroundMouseOnColor.addListener(this);
-	this.strokeMouseOnColor.addListener(this);
-	this.startAngle.addListener(this);
+        menuSize = new SimpleDoubleProperty(45);
+        menuSize.addListener(this);
+        innerRadius.addListener(this);
+	radius.addListener(this);
+	offset.addListener(this);
+	backgroundVisible.addListener(this);
+	strokeVisible.addListener(this);
+	clockwise.addListener(this);
+	backgroundColor.addListener(this);
+	strokeColor.addListener(this);
+	strokeWidth.addListener(this);
+	effect.addListener(this);
+	backgroundMouseOnColor.addListener(this);
+	strokeMouseOnColor.addListener(this);
+	startAngle.addListener(this);
         
         //TRON effects
         outlineStrokeVisible.addListener(this);
@@ -130,18 +130,18 @@ public class RadialMenuItem extends Group implements ChangeListener<Object> {
         outlineStrokeWidth.addListener(this);
         outlineEffect.addListener(this);        
         
-	this.path = new Path();
-	this.moveTo = new MoveTo();
-	this.arcToInner = new ArcTo();
-	this.arcTo = new ArcTo();
-	this.lineTo = new LineTo();
-	this.lineTo2 = new LineTo();
+	path = new Path();
+	moveTo = new MoveTo();
+	arcToInner = new ArcTo();
+	arcTo = new ArcTo();
+	lineTo = new LineTo();
+	lineTo2 = new LineTo();
 
-	this.path.getElements().add(this.moveTo);
-	this.path.getElements().add(this.arcToInner);
-	this.path.getElements().add(this.lineTo);
-	this.path.getElements().add(this.arcTo);
-	this.path.getElements().add(this.lineTo2);
+	path.getElements().add(moveTo);
+	path.getElements().add(arcToInner);
+	path.getElements().add(lineTo);
+	path.getElements().add(arcTo);
+	path.getElements().add(lineTo2);
 
         outlinePath = new Path();
         outlinePath.getElements().add(moveTo);
@@ -150,24 +150,18 @@ public class RadialMenuItem extends Group implements ChangeListener<Object> {
 	outlinePath.getElements().add(arcTo);
 	outlinePath.getElements().add(lineTo2);
 
-	this.getChildren().addAll(this.path, outlinePath);
+	getChildren().addAll(path, outlinePath);
 
-	this.setOnMouseEntered(new EventHandler<MouseEvent>() {
-	    @Override
-	    public void handle(final MouseEvent arg0) {
-		RadialMenuItem.this.mouseOn = true;
-                mouseOnProperty.set(mouseOn);                
-		RadialMenuItem.this.redraw();
-	    }
+	setOnMouseEntered(event -> {
+            mouseOn = true;
+            mouseOnProperty.set(mouseOn);                
+            redraw();
 	});
 
-	this.setOnMouseExited(new EventHandler<MouseEvent>() {
-	    @Override
-	    public void handle(final MouseEvent arg0) {
-		RadialMenuItem.this.mouseOn = false;
-                mouseOnProperty.set(mouseOn);                
-		RadialMenuItem.this.redraw();
-	    }
+	setOnMouseExited(event -> {
+            mouseOn = false;
+            mouseOnProperty.set(mouseOn);                
+            redraw();
 	});
     }
 
@@ -175,88 +169,83 @@ public class RadialMenuItem extends Group implements ChangeListener<Object> {
 	this();
         this.menuSize.set(menuSize);
 	this.graphic = graphic;
-	if (this.graphic != null)
-	    this.getChildren().add(this.graphic);
-	this.redraw();
+	if (graphic != null)
+	    getChildren().add(graphic);
+	redraw();
     }
 
     public RadialMenuItem(final double menuSize, final Node graphic,
 	    final EventHandler<ActionEvent> actionHandler) {
 	this(menuSize, graphic);
-	this.addEventHandler(MouseEvent.MOUSE_CLICKED,
-            new EventHandler<MouseEvent>() {
-                @Override
-                public void handle(final MouseEvent paramT) {
-                    actionHandler.handle(new ActionEvent(
-                            paramT.getSource(), paramT.getTarget()));
-                }
-            });
-	this.redraw();
+	addEventHandler(MouseEvent.MOUSE_CLICKED, event -> {
+            actionHandler.handle(new ActionEvent(event.getSource(), event.getTarget()));
+        });
+	redraw();
     }
 
     public RadialMenuItem(final double menuSize, final String text, final Node graphic) {
 	this(menuSize, graphic);
 	this.text = text;
-	this.redraw();
+	redraw();
     }
 
     public RadialMenuItem(final double menuSize, final String text,
 	    final Node graphic, final EventHandler<ActionEvent> actionHandler) {
 	this(menuSize, graphic, actionHandler);
 	this.text = text;
-	this.redraw();
+	redraw();
     }
-    
+    //<editor-fold defaultstate="collapsed" desc="Properties">
     public double getMenuSize() {
-        return this.menuSize.get();
+        return menuSize.get();
     }
 
     public void setMenuSize(final double width) {
-        this.menuSize.set(width);
+        menuSize.set(width);
     }
 
     public DoubleProperty menuSizeProperty() {
-        return this.menuSize;
+        return menuSize;
     } 
 
     DoubleProperty innerRadiusProperty() {
-	return this.innerRadius;
+	return innerRadius;
     }
 
     DoubleProperty radiusProperty() {
-	return this.radius;
+	return radius;
     }
 
     DoubleProperty offsetProperty() {
-	return this.offset;
+	return offset;
     }
 
     ObjectProperty<Paint> backgroundMouseOnColorProperty() {
-	return this.backgroundMouseOnColor;
+	return backgroundMouseOnColor;
     }
 
     ObjectProperty<Paint> backgroundColorProperty() {
-	return this.backgroundColor;
+	return backgroundColor;
     }
 
     public BooleanProperty clockwiseProperty() {
-	return this.clockwise;
+	return clockwise;
     }
 
     ObjectProperty<Paint> strokeMouseOnColorProperty() {
-	return this.strokeMouseOnColor;
+	return strokeMouseOnColor;
     }
 
     ObjectProperty<Paint> strokeColorProperty() {
-	return this.strokeColor;
+	return strokeColor;
     }
     
     DoubleProperty strokeWidthProperty() {
-	return this.strokeWidth;
+	return strokeWidth;
     }
     
     ObjectProperty<Effect> effect() {
-	return this.effect;
+	return effect;
     }    
 
     ObjectProperty<Paint> outlineStrokeMouseOnColorProperty() {
@@ -276,11 +265,11 @@ public class RadialMenuItem extends Group implements ChangeListener<Object> {
     }    
     
     public BooleanProperty strokeVisibleProperty() {
-	return this.strokeVisible;
+	return strokeVisible;
     }
 
     public BooleanProperty backgroundVisibleProperty() {
-	return this.backgroundVisible;
+	return backgroundVisible;
     }
 
     public BooleanProperty outlineStrokeVisibleProperty() {
@@ -288,50 +277,50 @@ public class RadialMenuItem extends Group implements ChangeListener<Object> {
     }
 
     public Node getGraphic() {
-	return this.graphic;
+	return graphic;
     }
 
     public void setStartAngle(final double angle) {
-	this.startAngle.set(angle);
+	startAngle.set(angle);
     }
 
     public DoubleProperty startAngleProperty() {
-	return this.startAngle;
+	return startAngle;
     }
 
     public void setGraphic(final Node graphic) {
-	if (this.graphic != null) {
-	    this.getChildren().remove(this.graphic);
+	if (graphic != null) {
+	    getChildren().remove(this.graphic);
 	}
 	this.graphic = graphic;
 	if (this.graphic != null) {
-	    this.getChildren().add(graphic);
+	    getChildren().add(graphic);
 	}
-	this.redraw();
+	redraw();
     }
 
     public void setText(final String text) {
 	this.text = text;
-	this.redraw();
+	redraw();
     }
 
     public String getText() {
-	return this.text;
+	return text;
     }
-
+    //</editor-fold>
     protected void redraw() {
-	this.path.setFill(this.backgroundVisible.get() ? (this.mouseOn
-            && this.backgroundMouseOnColor.get() != null ? this.backgroundMouseOnColor
-            .get() : this.backgroundColor.get())
+	path.setFill(backgroundVisible.get() ? (mouseOn
+            && backgroundMouseOnColor.get() != null ? backgroundMouseOnColor
+            .get() : backgroundColor.get())
             : Color.TRANSPARENT);
-	this.path.setStroke(this.strokeVisible.get() ? (this.mouseOn
-            && this.strokeMouseOnColor.get() != null ? this.strokeMouseOnColor
-            .get() : this.strokeColor.get())
+	path.setStroke(strokeVisible.get() ? (mouseOn
+            && strokeMouseOnColor.get() != null ? strokeMouseOnColor
+            .get() : strokeColor.get())
             : Color.TRANSPARENT);
         
-        this.path.setStrokeWidth(this.strokeWidth.get());
-        this.path.setEffect(this.effect.get());
-	this.path.setFillRule(FillRule.EVEN_ODD);
+        path.setStrokeWidth(strokeWidth.get());
+        path.setEffect(effect.get());
+	path.setFillRule(FillRule.EVEN_ODD);
 
         outlinePath.setFill(Color.TRANSPARENT);
 	outlinePath.setStroke(outlineStrokeVisible.get() ? (mouseOn
@@ -340,127 +329,127 @@ public class RadialMenuItem extends Group implements ChangeListener<Object> {
         outlinePath.setStrokeWidth(outlineStrokeWidth.get());
         outlinePath.setEffect(outlineEffect.get());
         
-        this.computeCoordinates();
-	this.update();
+        computeCoordinates();
+	update();
     }
 
     protected void update() {
-	final double innerRadiusValue = this.innerRadius.get();
-	final double radiusValue = this.radius.get();
+	final double innerRadiusValue = innerRadius.get();
+	final double radiusValue = radius.get();
 
-	this.moveTo.setX(this.innerStartX + this.translateX);
-	this.moveTo.setY(this.innerStartY + this.translateY);
+	moveTo.setX(innerStartX + translateX);
+	moveTo.setY(innerStartY + translateY);
 
-	this.arcToInner.setX(this.innerEndX + this.translateX);
-	this.arcToInner.setY(this.innerEndY + this.translateY);
-	this.arcToInner.setSweepFlag(this.innerSweep);
-	this.arcToInner.setRadiusX(innerRadiusValue);
-	this.arcToInner.setRadiusY(innerRadiusValue);
+	arcToInner.setX(innerEndX + translateX);
+	arcToInner.setY(innerEndY + translateY);
+	arcToInner.setSweepFlag(innerSweep);
+	arcToInner.setRadiusX(innerRadiusValue);
+	arcToInner.setRadiusY(innerRadiusValue);
 
-	this.lineTo.setX(this.startX + this.translateX);
-	this.lineTo.setY(this.startY + this.translateY);
+	lineTo.setX(startX + translateX);
+	lineTo.setY(startY + translateY);
 
-	this.arcTo.setX(this.endX + this.translateX);
-	this.arcTo.setY(this.endY + this.translateY);
-	this.arcTo.setSweepFlag(this.sweep);
+	arcTo.setX(endX + translateX);
+	arcTo.setY(endY + translateY);
+	arcTo.setSweepFlag(sweep);
 
-	this.arcTo.setRadiusX(radiusValue);
-	this.arcTo.setRadiusY(radiusValue);
+	arcTo.setRadiusX(radiusValue);
+	arcTo.setRadiusY(radiusValue);
 
-	this.lineTo2.setX(this.innerStartX + this.translateX);
-	this.lineTo2.setY(this.innerStartY + this.translateY);
+	lineTo2.setX(innerStartX + translateX);
+	lineTo2.setY(innerStartY + translateY);
 
-	if (this.graphic != null) {
-	    this.graphic.setTranslateX(this.graphicX + this.translateX);
-	    this.graphic.setTranslateY(this.graphicY + this.translateY);
+	if (graphic != null) {
+	    graphic.setTranslateX(graphicX + translateX);
+	    graphic.setTranslateY(graphicY + translateY);
 	}
     }
 
     protected void computeCoordinates() {
-	final double innerRadiusValue = this.innerRadius.get();
-	final double startAngleValue = this.startAngle.get();
+	final double innerRadiusValue = innerRadius.get();
+	final double startAngleValue = startAngle.get();
 
-	final double graphicAngle = startAngleValue + (this.menuSize.get() / 2.0);
-	final double radiusValue = this.radius.get();
+	final double graphicAngle = startAngleValue + (menuSize.get() / 2.0);
+	final double radiusValue = radius.get();
 
 	final double graphicRadius = innerRadiusValue
 		+ (radiusValue - innerRadiusValue) / 2.0;
 
-	final double offsetValue = this.offset.get();
+	final double offsetValue = offset.get();
 
-	if (!this.clockwise.get()) {
-	    this.innerStartX = innerRadiusValue
+	if (!clockwise.get()) {
+	    innerStartX = innerRadiusValue
 		    * Math.cos(Math.toRadians(startAngleValue));
-	    this.innerStartY = -innerRadiusValue
+	    innerStartY = -innerRadiusValue
 		    * Math.sin(Math.toRadians(startAngleValue));
-	    this.innerEndX = innerRadiusValue
-		    * Math.cos(Math.toRadians(startAngleValue + this.menuSize.get()));
-	    this.innerEndY = -innerRadiusValue
-		    * Math.sin(Math.toRadians(startAngleValue + this.menuSize.get()));
-	    this.innerSweep = false;
+	    innerEndX = innerRadiusValue
+		    * Math.cos(Math.toRadians(startAngleValue + menuSize.get()));
+	    innerEndY = -innerRadiusValue
+		    * Math.sin(Math.toRadians(startAngleValue + menuSize.get()));
+	    innerSweep = false;
 
-	    this.startX = radiusValue * Math.cos(Math.toRadians(startAngleValue + this.menuSize.get()));
-	    this.startY = -radiusValue * Math.sin(Math.toRadians(startAngleValue + this.menuSize.get()));
-	    this.endX = radiusValue * Math.cos(Math.toRadians(startAngleValue));
-	    this.endY = -radiusValue * Math.sin(Math.toRadians(startAngleValue));
+	    startX = radiusValue * Math.cos(Math.toRadians(startAngleValue + menuSize.get()));
+	    startY = -radiusValue * Math.sin(Math.toRadians(startAngleValue + menuSize.get()));
+	    endX = radiusValue * Math.cos(Math.toRadians(startAngleValue));
+	    endY = -radiusValue * Math.sin(Math.toRadians(startAngleValue));
 
-	    this.sweep = true;
+	    sweep = true;
 
-	    if (this.graphic != null) {
-		this.graphicX = graphicRadius
+	    if (graphic != null) {
+		graphicX = graphicRadius
 			* Math.cos(Math.toRadians(graphicAngle))
-			- this.graphic.getBoundsInParent().getWidth() / 2.0;
-		this.graphicY = -graphicRadius
+			- graphic.getBoundsInParent().getWidth() / 2.0;
+		graphicY = -graphicRadius
 			* Math.sin(Math.toRadians(graphicAngle))
-			- this.graphic.getBoundsInParent().getHeight() / 2.0;
+			- graphic.getBoundsInParent().getHeight() / 2.0;
 
 	    }
-	    this.translateX = offsetValue
+	    translateX = offsetValue
 		    * Math.cos(Math.toRadians(startAngleValue + (menuSize.get() / 2.0)));
-	    this.translateY = -offsetValue
+	    translateY = -offsetValue
 		    * Math.sin(Math.toRadians(startAngleValue + (menuSize.get() / 2.0)));
 
-	} else if (this.clockwise.get()) {
-	    this.innerStartX = innerRadiusValue
+	} else if (clockwise.get()) {
+	    innerStartX = innerRadiusValue
 		    * Math.cos(Math.toRadians(startAngleValue));
-	    this.innerStartY = innerRadiusValue
+	    innerStartY = innerRadiusValue
 		    * Math.sin(Math.toRadians(startAngleValue));
-	    this.innerEndX = innerRadiusValue
-		    * Math.cos(Math.toRadians(startAngleValue + this.menuSize.get()));
-	    this.innerEndY = innerRadiusValue
-		    * Math.sin(Math.toRadians(startAngleValue + this.menuSize.get()));
+	    innerEndX = innerRadiusValue
+		    * Math.cos(Math.toRadians(startAngleValue + menuSize.get()));
+	    innerEndY = innerRadiusValue
+		    * Math.sin(Math.toRadians(startAngleValue + menuSize.get()));
 
-	    this.innerSweep = true;
+	    innerSweep = true;
 
-	    this.startX = radiusValue
-		    * Math.cos(Math.toRadians(startAngleValue + this.menuSize.get()));
-	    this.startY = radiusValue
-		    * Math.sin(Math.toRadians(startAngleValue + this.menuSize.get()));
-	    this.endX = radiusValue * Math.cos(Math.toRadians(startAngleValue));
-	    this.endY = radiusValue * Math.sin(Math.toRadians(startAngleValue));
+	    startX = radiusValue
+		    * Math.cos(Math.toRadians(startAngleValue + menuSize.get()));
+	    startY = radiusValue
+		    * Math.sin(Math.toRadians(startAngleValue + menuSize.get()));
+	    endX = radiusValue * Math.cos(Math.toRadians(startAngleValue));
+	    endY = radiusValue * Math.sin(Math.toRadians(startAngleValue));
 
-	    this.sweep = false;
+	    sweep = false;
 
-	    if (this.graphic != null) {
-		this.graphicX = graphicRadius
+	    if (graphic != null) {
+		graphicX = graphicRadius
 			* Math.cos(Math.toRadians(graphicAngle))
-			- this.graphic.getBoundsInParent().getWidth() / 2.0;
-		this.graphicY = graphicRadius
+			- graphic.getBoundsInParent().getWidth() / 2.0;
+		graphicY = graphicRadius
 			* Math.sin(Math.toRadians(graphicAngle))
-			- this.graphic.getBoundsInParent().getHeight() / 2.0;
+			- graphic.getBoundsInParent().getHeight() / 2.0;
 	    }
 
-	    this.translateX = offsetValue
-		    * Math.cos(Math.toRadians(startAngleValue + (this.menuSize.get() / 2.0)));
-	    this.translateY = offsetValue
-		    * Math.sin(Math.toRadians(startAngleValue + (this.menuSize.get() / 2.0)));
+	    translateX = offsetValue
+		    * Math.cos(Math.toRadians(startAngleValue + (menuSize.get() / 2.0)));
+	    translateY = offsetValue
+		    * Math.sin(Math.toRadians(startAngleValue + (menuSize.get() / 2.0)));
 	}
     }
     
     @Override
     public void changed(final ObservableValue<? extends Object> arg0,
 	    final Object arg1, final Object arg2) {
-	this.redraw();
+	redraw();
     }
 
     void setSelected(final boolean selected) {

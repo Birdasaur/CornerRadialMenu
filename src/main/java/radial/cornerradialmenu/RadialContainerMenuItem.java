@@ -27,7 +27,7 @@
  * SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 /**
- * @adapted From Mr. LoNee's awesome RadialMenu example. Source for original 
+ * Adapted From Mr. LoNee's awesome RadialMenu example. Source for original 
  * prototype can be found in JFXtras-labs project.
  * https://github.com/JFXtras/jfxtras-labs
  */
@@ -35,7 +35,6 @@ package radial.cornerradialmenu;
 
 import java.util.ArrayList;
 import java.util.List;
-
 import javafx.animation.Animation.Status;
 import javafx.animation.FadeTransition;
 import javafx.beans.value.ChangeListener;
@@ -59,73 +58,71 @@ public class RadialContainerMenuItem extends RadialMenuItem {
 
     public RadialContainerMenuItem(final double menuSize, final Node graphic) {
 	super(menuSize, graphic);
-	this.initialize();
+	initialize();
     }
 
     public RadialContainerMenuItem(final double menuSize, final String text,
 	    final Node graphic) {
 	super(menuSize, text, graphic);
-	this.initialize();
+	initialize();
     }
 
     private void initialize() {
 		arrow.setFill(Color.GRAY);
 		arrow.setStroke(null);
-	this.childAnimGroup.setVisible(false);
-	this.visibleProperty().addListener(new ChangeListener<Boolean>() {
+	childAnimGroup.setVisible(false);
+	visibleProperty().addListener(new ChangeListener<Boolean>() {
 
 	    @Override
 	    public void changed(final ObservableValue<? extends Boolean> arg0,
 		    final Boolean arg1, final Boolean arg2) {
 		if (!arg0.getValue()) {
-		    RadialContainerMenuItem.this.childAnimGroup
-			    .setVisible(false);
-		    RadialContainerMenuItem.this.setSelected(false);
+		    childAnimGroup.setVisible(false);
+		    setSelected(false);
 		}
 	    }
 	});
-	this.getChildren().add(this.childAnimGroup);
-	this.fadeIn = new FadeTransition(Duration.millis(400), this.childAnimGroup);
+	getChildren().add(childAnimGroup);
+	fadeIn = new FadeTransition(Duration.millis(400), childAnimGroup);
 	fadeIn.setFromValue(0.0);
 	fadeIn.setToValue(1.0);
-	this.fadeOut = new FadeTransition(Duration.millis(400), this.childAnimGroup);
+	fadeOut = new FadeTransition(Duration.millis(400), childAnimGroup);
 	fadeOut.setFromValue(0.0);
 	fadeOut.setToValue(1.0);
 	fadeOut.setOnFinished(new EventHandler<ActionEvent>() {
 
 		    @Override
 		    public void handle(final ActionEvent arg0) {
-			RadialContainerMenuItem.this.childAnimGroup
-				.setVisible(false);
+			childAnimGroup.setVisible(false);
 		    }
 		});
-	this.getChildren().add(this.arrow);
+	getChildren().add(arrow);
     }
 
     public void addMenuItem(final RadialMenuItem item) {
-	item.backgroundColorProperty().bind(this.backgroundColor);
-	item.backgroundMouseOnColorProperty().bind(this.backgroundMouseOnColor);
-	item.innerRadiusProperty().bind(this.radius);
+	item.backgroundColorProperty().bind(backgroundColor);
+	item.backgroundMouseOnColorProperty().bind(backgroundMouseOnColor);
+	item.innerRadiusProperty().bind(radius);
 	item.radiusProperty().bind(
-		this.radius.multiply(2).subtract(this.innerRadius));
-	item.offsetProperty().bind(this.offset.multiply(2.0));
-	item.strokeColorProperty().bind(this.strokeColor);
-        item.strokeWidthProperty().bind(this.strokeWidth);
-	item.clockwiseProperty().bind(this.clockwise);
-	item.backgroundVisibleProperty().bind(this.backgroundVisible);
-	item.strokeVisibleProperty().bind(this.strokeVisible);
-	this.items.add(item);
-	this.childAnimGroup.getChildren().add(item);
-	double offset = 0;
-	for (final RadialMenuItem it : this.items) {
-	    it.startAngleProperty().bind(this.startAngleProperty().add(offset));
-	    offset += it.getMenuSize();
+		radius.multiply(2).subtract(innerRadius));
+	item.offsetProperty().bind(offset.multiply(2.0));
+	item.strokeColorProperty().bind(strokeColor);
+        item.strokeWidthProperty().bind(strokeWidth);
+	item.clockwiseProperty().bind(clockwise);
+	item.backgroundVisibleProperty().bind(backgroundVisible);
+	item.strokeVisibleProperty().bind(strokeVisible);
+	items.add(item);
+	childAnimGroup.getChildren().add(item);
+	double currentOffset = 0;
+	for (final RadialMenuItem it : items) {
+	    it.startAngleProperty().bind(startAngleProperty().add(currentOffset));
+	    currentOffset += it.getMenuSize();
 	}
     }
 
     public void removeMenuItem(final RadialMenuItem item) {
-	this.items.remove(item);
-	this.childAnimGroup.getChildren().remove(item);
+	items.remove(item);
+	childAnimGroup.getChildren().remove(item);
 	item.backgroundColorProperty().unbind();
 	item.backgroundMouseOnColorProperty().unbind();
 	item.innerRadiusProperty().unbind();
@@ -136,51 +133,48 @@ public class RadialContainerMenuItem extends RadialMenuItem {
 	item.clockwiseProperty().unbind();
 	item.backgroundVisibleProperty().unbind();
 	item.strokeVisibleProperty().unbind();
-
     }
 
     public void removeMenuItem(final int itemIndex) {
-	final RadialMenuItem item = this.items.get(itemIndex);
-	this.removeMenuItem(item);
+	final RadialMenuItem item = items.get(itemIndex);
+	removeMenuItem(item);
     }
 
     @Override
     protected void redraw() {
 	super.redraw();
-	if (this.selected) {
-	    this.path
-		    .setFill(this.backgroundVisible.get() ? (this.selected
-			    && this.backgroundMouseOnColor.get() != null ? this.backgroundMouseOnColor
-			    .get() : this.backgroundColor.get())
-			    : null);
+	if (selected) {
+	    path.setFill(backgroundVisible.get() ? (selected
+                && backgroundMouseOnColor.get() != null ? backgroundMouseOnColor
+                .get() : backgroundColor.get())
+                : null);
 	}
-	if (this.arrow != null) {
-	    this.arrow.setFill(this.backgroundVisible.get() ? (this.mouseOn
-		    && this.strokeColor.get() != null ? this.strokeColor.get()
-		    : this.strokeColor.get()) : null);
-	    this.arrow.setStroke(this.strokeVisible.get() ? this.strokeColor
-		    .get() : null);
-	    if (!this.clockwise.get()) {
-		this.arrow.setRotate(-(this.startAngle.get() + menuSize.get() / 2.0));
-		this.arrow.setTranslateX((this.radius.get() - this.arrow
+	if (arrow != null) {
+	    arrow.setFill(backgroundVisible.get() ? (mouseOn
+		    && strokeColor.get() != null ? strokeColor.get()
+		    : strokeColor.get()) : null);
+	    arrow.setStroke(strokeVisible.get() ? strokeColor.get() : null);
+	    if (!clockwise.get()) {
+		arrow.setRotate(-(startAngle.get() + menuSize.get() / 2.0));
+		arrow.setTranslateX((radius.get() - arrow
 			.getBoundsInLocal().getWidth() / 2.0)
-			* Math.cos(Math.toRadians(this.startAngle.get()
-				+ this.menuSize.get() / 2.0)) + this.translateX);
-		this.arrow.setTranslateY(-(this.radius.get() - this.arrow
+			* Math.cos(Math.toRadians(startAngle.get()
+				+ menuSize.get() / 2.0)) + translateX);
+		arrow.setTranslateY(-(radius.get() - arrow
 			.getBoundsInLocal().getHeight() / 2.0)
-			* Math.sin(Math.toRadians(this.startAngle.get()
-				+ this.menuSize.get() / 2.0)) + this.translateY);
+			* Math.sin(Math.toRadians(startAngle.get()
+				+ menuSize.get() / 2.0)) + translateY);
 	    } else {
-		this.arrow.setRotate(this.startAngle.get() + this.menuSize.get()
+		arrow.setRotate(startAngle.get() + menuSize.get()
 			/ 2.0);
-		this.arrow.setTranslateX((this.radius.get() - this.arrow
+		arrow.setTranslateX((radius.get() - arrow
 			.getBoundsInLocal().getWidth() / 2.0)
-			* Math.cos(Math.toRadians(this.startAngle.get()
-				+ this.menuSize.get() / 2.0)) + this.translateX);
-		this.arrow.setTranslateY((this.radius.get() - this.arrow
+			* Math.cos(Math.toRadians(startAngle.get()
+				+ menuSize.get() / 2.0)) + translateX);
+		arrow.setTranslateY((radius.get() - arrow
 			.getBoundsInLocal().getHeight() / 2.0)
-			* Math.sin(Math.toRadians(this.startAngle.get()
-				+ this.menuSize.get() / 2.0)) + this.translateY);
+			* Math.sin(Math.toRadians(startAngle.get()
+				+ menuSize.get() / 2.0)) + translateY);
 	    }
 	}
     }
@@ -188,33 +182,33 @@ public class RadialContainerMenuItem extends RadialMenuItem {
     @Override
     void setSelected(final boolean selected) {
 	this.selected = selected;
-	if (this.selected) {
+	if (selected) {
 	    double startOpacity = 0;
-	    if (this.fadeOut.getStatus() == Status.RUNNING) {
-		this.fadeOut.stop();
-		startOpacity = this.childAnimGroup.getOpacity();
+	    if (fadeOut.getStatus() == Status.RUNNING) {
+		fadeOut.stop();
+		startOpacity = childAnimGroup.getOpacity();
 	    }
 	    // draw Children
-	    this.childAnimGroup.setOpacity(startOpacity);
-	    this.childAnimGroup.setVisible(true);
-	    this.fadeIn.fromValueProperty().set(startOpacity);
-	    this.fadeIn.playFromStart();
+	    childAnimGroup.setOpacity(startOpacity);
+	    childAnimGroup.setVisible(true);
+	    fadeIn.fromValueProperty().set(startOpacity);
+	    fadeIn.playFromStart();
 	} else {
 	    // draw Children
 	    double startOpacity = 1.0;
-	    if (this.fadeIn.getStatus() == Status.RUNNING) {
-		this.fadeIn.stop();
-		startOpacity = this.childAnimGroup.getOpacity();
+	    if (fadeIn.getStatus() == Status.RUNNING) {
+		fadeIn.stop();
+		startOpacity = childAnimGroup.getOpacity();
 	    }
-	    this.fadeOut.fromValueProperty().set(startOpacity);
-	    this.fadeOut.playFromStart();
+	    fadeOut.fromValueProperty().set(startOpacity);
+	    fadeOut.playFromStart();
 	}
-	this.redraw();
+	redraw();
     }
 
     @Override
     boolean isSelected() {
-	return this.selected;
+	return selected;
     }
 
 }

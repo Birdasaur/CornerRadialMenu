@@ -6,7 +6,6 @@ import javafx.animation.FadeTransition;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.ParallelTransition;
-import javafx.animation.PathTransition;
 import javafx.animation.Timeline;
 import javafx.animation.TranslateTransition;
 import javafx.application.Application;
@@ -15,19 +14,15 @@ import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.property.SimpleLongProperty;
 import javafx.concurrent.Task;
 import javafx.event.ActionEvent;
-import javafx.event.Event;
 import javafx.event.EventHandler;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
-import javafx.scene.Node;
 import javafx.scene.Scene;
 import javafx.scene.control.ColorPicker;
 import javafx.scene.control.Label;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.control.Slider;
-import javafx.scene.effect.Bloom;
 import javafx.scene.effect.BlurType;
-import javafx.scene.effect.DropShadow;
 import javafx.scene.effect.Glow;
 import javafx.scene.effect.Shadow;
 import javafx.scene.image.Image;
@@ -37,14 +32,12 @@ import javafx.scene.layout.Background;
 import javafx.scene.layout.BackgroundFill;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.CornerRadii;
-import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
-import javafx.scene.shape.MoveTo;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lit.litfx.core.components.BandEmitter;
@@ -144,9 +137,8 @@ public class App extends Application {
         scene.getStylesheets().add(CSS);     
         
         bandEmitters = createBandEmitters();
-         pane.getChildren().addAll(centerBe, radialMenu);
-//        radialMenu.setViewOrder(0);
-//        be.setViewOrder(10);
+        pane.getChildren().addAll(centerBe, radialMenu);
+
         Task animationTask = new Task() {
             @Override
             protected Void call() throws Exception {
@@ -172,61 +164,45 @@ public class App extends Application {
         tt = new TranslateTransition(Duration.seconds(1.0), radialMenu);
 
         radialMenu.centerGroup.addEventHandler(MouseEvent.MOUSE_CLICKED, e-> {
+            if(e.isControlDown()) {
+                centeredMenu.set(!centeredMenu.get());
+                if(centeredMenu.get()) {
+                    tt.setToX(750);
+                    tt.setToY(400);
+                    tt.setFromX(CORNER_ITEM_SIZE);
+                    tt.setFromY(CORNER_ITEM_SIZE);
+                    animation = new Timeline(
+                        new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.offsetProperty(), OFFSET)),
+                        new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.menuItemSizeProperty(), ITEM_SIZE)),
+                        new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.itemFitWidthProperty(), ITEM_FIT_WIDTH)),
+                        new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.innerRadiusProperty(), INNER_RADIUS)),
+                        new KeyFrame(Duration.seconds(1.01), new KeyValue(radialMenu.initialAngleProperty(), INITIAL_ANGLE)),
+                        new KeyFrame(Duration.seconds(1.1), new KeyValue(radialMenu.radiusProperty(), MENU_SIZE)),
+                        new KeyFrame(Duration.seconds(1.2), new KeyValue(radialMenu.strokeWidthProperty(), STROKE_WIDTH))
 
-                if(e.isControlDown()) {
-                    centeredMenu.set(!centeredMenu.get());
-                    if(centeredMenu.get()) {
-                        tt.setToX(750);
-                        tt.setToY(400);
-                        tt.setFromX(CORNER_ITEM_SIZE);
-                        tt.setFromY(CORNER_ITEM_SIZE);
-                        animation = new Timeline(
-                            new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.offsetProperty(), OFFSET)),
-                            new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.menuItemSizeProperty(), ITEM_SIZE)),
-                            new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.itemFitWidthProperty(), ITEM_FIT_WIDTH)),
-                            new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.innerRadiusProperty(), INNER_RADIUS)),
-                            new KeyFrame(Duration.seconds(1.01), new KeyValue(radialMenu.initialAngleProperty(), INITIAL_ANGLE)),
-                            new KeyFrame(Duration.seconds(1.1), new KeyValue(radialMenu.radiusProperty(), MENU_SIZE)),
-                            new KeyFrame(Duration.seconds(1.2), new KeyValue(radialMenu.strokeWidthProperty(), STROKE_WIDTH))
-                                
-                        );  
-                    } else {
-                        tt.setToX(CORNER_ITEM_SIZE);
-                        tt.setToY(CORNER_ITEM_SIZE);
-                        tt.setFromX(750);
-                        tt.setFromY(400);
-                        animation = new Timeline(
-                            new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.offsetProperty(), CORNER_OFFSET)),
-                            new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.menuItemSizeProperty(), CORNER_ITEM_SIZE)),
-                            new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.itemFitWidthProperty(), CORNER_ITEM_FIT_WIDTH)),
-                            new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.innerRadiusProperty(), CORNER_INNER_RADIUS)),
-                            new KeyFrame(Duration.seconds(1.01), new KeyValue(radialMenu.initialAngleProperty(), CORNER_INITIAL_ANGLE)),
-                            new KeyFrame(Duration.seconds(1.1), new KeyValue(radialMenu.radiusProperty(), CORNER_MENU_SIZE)),
-                            new KeyFrame(Duration.seconds(1.2), new KeyValue(radialMenu.strokeWidthProperty(), CORNER_STROKE_WIDTH))
-                        );                                                       
-                    }
-                    pt = new ParallelTransition(tt, animation);
-                    pt.play();
+                    );  
+                } else {
+                    tt.setToX(CORNER_ITEM_SIZE);
+                    tt.setToY(CORNER_ITEM_SIZE);
+                    tt.setFromX(750);
+                    tt.setFromY(400);
+                    animation = new Timeline(
+                        new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.offsetProperty(), CORNER_OFFSET)),
+                        new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.menuItemSizeProperty(), CORNER_ITEM_SIZE)),
+                        new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.itemFitWidthProperty(), CORNER_ITEM_FIT_WIDTH)),
+                        new KeyFrame(Duration.seconds(1), new KeyValue(radialMenu.innerRadiusProperty(), CORNER_INNER_RADIUS)),
+                        new KeyFrame(Duration.seconds(1.01), new KeyValue(radialMenu.initialAngleProperty(), CORNER_INITIAL_ANGLE)),
+                        new KeyFrame(Duration.seconds(1.1), new KeyValue(radialMenu.radiusProperty(), CORNER_MENU_SIZE)),
+                        new KeyFrame(Duration.seconds(1.2), new KeyValue(radialMenu.strokeWidthProperty(), CORNER_STROKE_WIDTH))
+                    );                                                       
                 }
+                pt = new ParallelTransition(tt, animation);
+                pt.play();
+            }
             e.consume();
         });
         stage.setScene(scene);
         stage.show();
-    }
-    private void setConfig(boolean isCentered) {
-        if(isCentered) {
-            radialMenu.setRadius(MENU_SIZE);
-            radialMenu.setInnerRadius(ITEM_SIZE);
-            radialMenu.setInitialAngle(INITIAL_ANGLE);
-            radialMenu.setGraphicsFitWidth(ITEM_FIT_WIDTH);
-            radialMenu.setOffset(OFFSET);            
-        } else {
-            radialMenu.setRadius(CORNER_MENU_SIZE);
-            radialMenu.setInnerRadius(CORNER_ITEM_SIZE);
-            radialMenu.setInitialAngle(CORNER_INITIAL_ANGLE);
-            radialMenu.setGraphicsFitWidth(CORNER_ITEM_FIT_WIDTH);
-            radialMenu.setOffset(CORNER_OFFSET);
-        }
     }
     private ArrayList<BandEmitter> createBandEmitters() {
         bandEmitters = new ArrayList<>();
@@ -389,6 +365,7 @@ public class App extends Application {
         transition.play();
     }
 
+    //Showing the menu in a specific location when it was hidden
     private void showRadialMenu(final double x, final double y) {
         if (this.radialMenu.isVisible()) {
             this.lastInitialAngleValue = this.radialMenu.getInitialAngle();
