@@ -38,6 +38,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.paint.CycleMethod;
 import javafx.scene.paint.LinearGradient;
 import javafx.scene.paint.Stop;
+import javafx.scene.text.Text;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 import lit.litfx.core.components.BandEmitter;
@@ -477,13 +478,13 @@ public class App extends Application {
         radialMenu.addMenuItem(new RadialMenuItem(ITEM_SIZE, "Configuration", configuration, handler));
         radialMenu.addMenuItem(new RadialMenuItem(ITEM_SIZE, "Metrics", metrics, handler));
         radialMenu.addMenuItem(new RadialMenuItem(ITEM_SIZE, "Scenario Generator", scenariogenerator, handler));
-/* Example from original prototype for adding submenus
-        final RadialContainerMenuItem forwardItem = new RadialContainerMenuItem(50, "forward", forward);
-        forwardItem.addMenuItem(new RadialMenuItem(30, "forward 5'", fiveSec, handler));
-        forwardItem.addMenuItem(new RadialMenuItem(30, "forward 10'", tenSec, handler));
-        forwardItem.addMenuItem(new RadialMenuItem(30, "forward 20'", twentySec, handler));
+/* Example from original prototype for adding submenus */
+        final RadialContainerMenuItem forwardItem = new RadialContainerMenuItem(50, "Submenu", new Text("Submenu"));
+        forwardItem.addMenuItem(new RadialMenuItem(30, "Submenuitem 1", new Text("Submenuitem 1"), handler));
+        forwardItem.addMenuItem(new RadialMenuItem(30, "Submenuitem 2", new Text("Submenuitem 2"), handler));
+        forwardItem.addMenuItem(new RadialMenuItem(30, "Submenuitem 3", new Text("Submenuitem 3"), handler));
         this.radialMenu.addMenuItem(forwardItem);        
-  */      
+
         return this.radialMenu;
     }
 
